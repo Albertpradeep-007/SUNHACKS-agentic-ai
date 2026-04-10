@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # 🧠 PEIP — Predictive Engineering Intelligence Platform
 
@@ -222,7 +222,7 @@ Before running PEIP, ensure you have the following installed:
 
 ```bash
 git clone https://github.com/Albertpradeep-007/SUNHACKS-agentic-ai.git
-cd SUNHACKS-agentic-ai/SUNHACKS_FINAL
+cd SUNHACKS-agentic-ai
 ```
 
 ### 2. Install Python Dependencies
@@ -427,4 +427,3 @@ All thresholds and metrics in PEIP are traceable to published research:
 *Predictive Engineering Intelligence — Because the best bug fix is the one you never have to make.*
 
 </div>
-]]>
