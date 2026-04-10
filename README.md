@@ -1,8 +1,32 @@
-# PEIP — Predictive Engineering Intelligence Platform
+<div align="center">
 
-> **SunHacks Hackathon Project** | AI-powered GitHub repository health analysis with agentic LLM pipeline
+# 🧠 PEIP — Predictive Engineering Intelligence Platform
 
-PEIP mines repository history, scores code health, predicts near-term technical risk, and generates a polished executive PDF report — all powered by a multi-agent LangGraph pipeline running on Groq (free tier).
+### Autonomous Multi-Agent AI System for Software Risk Prediction & Code Health Analysis
+
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green?logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Groq-orange)](https://www.langchain.com/langgraph)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
+> **Built for SUNHACKS** — AI-powered GitHub repository health analysis with a multi-agent LangGraph pipeline running on Groq (free tier). Mines repo history, scores code health, predicts near-term risk, and generates executive PDF reports.
+
+</div>
+
+---
+
+## 🏆 SUNHACKS Team
+
+<div align="center">
+
+| | Details |
+|:---|:---|
+| 🏷️ **Team Name** | Agentic |
+| 🔢 **Team Code** | `46CD8` |
+| 👥 **Members** | Tummala Pradeep · Chaitanya · Shivaram · Akshay · Shibu |
+
+</div>
 
 ---
 
@@ -247,3 +271,17 @@ If splitting work across teammates, see [`docs/MODULAR_WORKPACKAGES.md`](./docs/
 ## 📜 License
 
 MIT — free to use, modify, and distribute.
+
+---
+
+<div align="center">
+
+**Built with ❤️ for SUNHACKS by Team Agentic (`46CD8`)**
+
+*Predictive Engineering Intelligence — Because the best bug fix is the one you never have to make.*
+
+| Tummala Pradeep | Chaitanya | Shivaram | Akshay | Shibu |
+|:---:|:---:|:---:|:---:|:---:|
+| 👨‍💻 | 👨‍💻 | 👨‍💻 | 👨‍💻 | 👨‍💻 |
+
+</div>
