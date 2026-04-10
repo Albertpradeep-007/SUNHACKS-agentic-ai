@@ -18,6 +18,20 @@
 
 ---
 
+## 🏆 SUNHACKS Team
+
+<div align="center">
+
+| | Details |
+|:---|:---|
+| 🏷️ **Team Name** | Agentic |
+| 🔢 **Team Code** | `46CD8` |
+| 👥 **Members** | Tummala Pradeep · Chaitanya · Shivaram · Akshay · Shibu |
+
+</div>
+
+---
+
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
@@ -422,8 +436,12 @@ All thresholds and metrics in PEIP are traceable to published research:
 
 <div align="center">
 
-**Built with ❤️ for SUNHACKS**
+**Built with ❤️ for SUNHACKS by Team Agentic (46CD8)**
 
 *Predictive Engineering Intelligence — Because the best bug fix is the one you never have to make.*
+
+| Tummala Pradeep | Chaitanya | Shivaram | Akshay | Shibu |
+|:---:|:---:|:---:|:---:|:---:|
+| 👨‍💻 | 👨‍💻 | 👨‍💻 | 👨‍💻 | 👨‍💻 |
 
 </div>
