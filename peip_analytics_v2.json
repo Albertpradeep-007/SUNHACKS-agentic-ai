@@ -1,0 +1,266 @@
+[
+  {
+    "repository": "fintech-core-v2",
+    "metrics": {
+      "git": {
+        "commit_frequency_90d": 81,
+        "hotspots": [
+          "payments_gateway.py",
+          "ledger_sync.py",
+          "auth_controller.py",
+          "user_model.py",
+          "api_routes.py"
+        ],
+        "bus_factor_per_file": {
+          "payments_gateway.py": 1,
+          "ledger_sync.py": 1,
+          "auth_controller.py": 1,
+          "user_model.py": 1,
+          "api_routes.py": 3
+        },
+        "deployment_frequency": 7,
+        "avg_time_to_fix_days": 2.6,
+        "total_churn": 6399
+      },
+      "complexity": {
+        "maintainability_index": 71,
+        "unmaintainable_files_count": 0,
+        "high_risk_functions_count": 4,
+        "critical_risk_multiplier": 1.0
+      },
+      "bugs": {
+        "bug_count": 45,
+        "issue_resolution_time_days": 9.5,
+        "pr_review_cycle_days": 5.6,
+        "recurring_bug_weight": 3
+      }
+    },
+    "health": {
+      "score": 82.1,
+      "category": "STABLE",
+      "reasoning": "Score reflects 62% coverage with 45 recurring bugs and a 1.0x complexity multiplier.",
+      "failure_probability_90d": 17.9,
+      "test_coverage_proxy": 62
+    }
+  },
+  {
+    "repository": "scalechat-realtime",
+    "metrics": {
+      "git": {
+        "commit_frequency_90d": 62,
+        "hotspots": [
+          "websocket_handler.py",
+          "message_broker.py",
+          "redis_cache.py",
+          "notification.py",
+          "room_manager.py"
+        ],
+        "bus_factor_per_file": {
+          "websocket_handler.py": 3,
+          "message_broker.py": 1,
+          "redis_cache.py": 2,
+          "notification.py": 2,
+          "room_manager.py": 1
+        },
+        "deployment_frequency": 9,
+        "avg_time_to_fix_days": 1.9,
+        "total_churn": 1922
+      },
+      "complexity": {
+        "maintainability_index": 74,
+        "unmaintainable_files_count": 0,
+        "high_risk_functions_count": 2,
+        "critical_risk_multiplier": 1.0
+      },
+      "bugs": {
+        "bug_count": 35,
+        "issue_resolution_time_days": 7.1,
+        "pr_review_cycle_days": 3.7,
+        "recurring_bug_weight": 9
+      }
+    },
+    "health": {
+      "score": 79.1,
+      "category": "STABLE",
+      "reasoning": "Score reflects 56% coverage with 35 recurring bugs and a 1.0x complexity multiplier.",
+      "failure_probability_90d": 20.9,
+      "test_coverage_proxy": 56
+    }
+  },
+  {
+    "repository": "socialhive-api",
+    "metrics": {
+      "git": {
+        "commit_frequency_90d": 119,
+        "hotspots": [
+          "feed_algorithm.py",
+          "user_graph.py",
+          "media_upload.py",
+          "comments.py",
+          "likes.py"
+        ],
+        "bus_factor_per_file": {
+          "feed_algorithm.py": 1,
+          "user_graph.py": 2,
+          "media_upload.py": 2,
+          "comments.py": 1,
+          "likes.py": 3
+        },
+        "deployment_frequency": 12,
+        "avg_time_to_fix_days": 5.8,
+        "total_churn": 9758
+      },
+      "complexity": {
+        "maintainability_index": 72,
+        "unmaintainable_files_count": 0,
+        "high_risk_functions_count": 1,
+        "critical_risk_multiplier": 1.0
+      },
+      "bugs": {
+        "bug_count": 15,
+        "issue_resolution_time_days": 11.4,
+        "pr_review_cycle_days": 6.6,
+        "recurring_bug_weight": 15
+      }
+    },
+    "health": {
+      "score": 73.0,
+      "category": "STABLE",
+      "reasoning": "Score reflects 55% coverage with 15 recurring bugs and a 1.0x complexity multiplier.",
+      "failure_probability_90d": 27.0,
+      "test_coverage_proxy": 55
+    }
+  },
+  {
+    "repository": "PROJECT_1",
+    "metrics": {
+      "git": {
+        "commit_frequency_90d": 15,
+        "hotspots": [
+          "module_0.py",
+          "module_1.py",
+          "module_2.py",
+          "module_3.py",
+          "module_4.py"
+        ],
+        "bus_factor_per_file": {
+          "module_0.py": 2,
+          "module_1.py": 1,
+          "module_2.py": 3,
+          "module_3.py": 1,
+          "module_4.py": 1
+        },
+        "deployment_frequency": 3,
+        "avg_time_to_fix_days": 13.2,
+        "total_churn": 705
+      },
+      "complexity": {
+        "maintainability_index": 74,
+        "unmaintainable_files_count": 0,
+        "high_risk_functions_count": 3,
+        "critical_risk_multiplier": 1.0
+      },
+      "bugs": {
+        "bug_count": 29,
+        "issue_resolution_time_days": 13.1,
+        "pr_review_cycle_days": 6.6,
+        "recurring_bug_weight": 15
+      }
+    },
+    "health": {
+      "score": 58.1,
+      "category": "AT RISK",
+      "reasoning": "Score reflects 0% coverage with 29 recurring bugs and a 1.0x complexity multiplier.",
+      "failure_probability_90d": 41.9,
+      "test_coverage_proxy": 0
+    }
+  },
+  {
+    "repository": "PROJECT_2",
+    "metrics": {
+      "git": {
+        "commit_frequency_90d": 75,
+        "hotspots": [
+          "module_0.py",
+          "module_1.py",
+          "module_2.py",
+          "module_3.py",
+          "module_4.py"
+        ],
+        "bus_factor_per_file": {
+          "module_0.py": 2,
+          "module_1.py": 2,
+          "module_2.py": 1,
+          "module_3.py": 3,
+          "module_4.py": 2
+        },
+        "deployment_frequency": 5,
+        "avg_time_to_fix_days": 13.9,
+        "total_churn": 3600
+      },
+      "complexity": {
+        "maintainability_index": 46,
+        "unmaintainable_files_count": 0,
+        "high_risk_functions_count": 7,
+        "critical_risk_multiplier": 1.0
+      },
+      "bugs": {
+        "bug_count": 19,
+        "issue_resolution_time_days": 14.0,
+        "pr_review_cycle_days": 2.1,
+        "recurring_bug_weight": 15
+      }
+    },
+    "health": {
+      "score": 69.3,
+      "category": "STABLE",
+      "reasoning": "Score reflects 93% coverage with 19 recurring bugs and a 1.0x complexity multiplier.",
+      "failure_probability_90d": 30.7,
+      "test_coverage_proxy": 93
+    }
+  },
+  {
+    "repository": "THIRD-PROJECT",
+    "metrics": {
+      "git": {
+        "commit_frequency_90d": 104,
+        "hotspots": [
+          "module_0.py",
+          "module_1.py",
+          "module_2.py",
+          "module_3.py",
+          "module_4.py"
+        ],
+        "bus_factor_per_file": {
+          "module_0.py": 1,
+          "module_1.py": 3,
+          "module_2.py": 1,
+          "module_3.py": 1,
+          "module_4.py": 3
+        },
+        "deployment_frequency": 5,
+        "avg_time_to_fix_days": 8.6,
+        "total_churn": 7800
+      },
+      "complexity": {
+        "maintainability_index": 94,
+        "unmaintainable_files_count": 0,
+        "high_risk_functions_count": 4,
+        "critical_risk_multiplier": 1.0
+      },
+      "bugs": {
+        "bug_count": 44,
+        "issue_resolution_time_days": 25.8,
+        "pr_review_cycle_days": 9.7,
+        "recurring_bug_weight": 15
+      }
+    },
+    "health": {
+      "score": 79.6,
+      "category": "STABLE",
+      "reasoning": "Score reflects 69% coverage with 44 recurring bugs and a 1.0x complexity multiplier.",
+      "failure_probability_90d": 20.4,
+      "test_coverage_proxy": 69
+    }
+  }
+]

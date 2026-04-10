@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PEIP | Predictive Engineering Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --card-bg: #0f172a;
+            --border: #1e293b;
+            --accent: #38bdf8;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: #f8fafc;
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .nav-header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: var(--accent);
+        }
+
+        .badge-live {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        .prediction-box {
+            background: #020617;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #334155;
+        }
+
+        .prediction-header {
+            display: flex;
+            align-items: center;
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .btn-action {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .chart-container {
+            height: 200px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Timeline CSS */
+        .timeline {
+            border-left: 2px solid var(--border);
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            left: -1.4rem;
+            top: 4px;
+        }
+        .timeline-item .time {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .timeline-item .message {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+        .diff-code {
+            max-height: 250px; 
+            overflow: auto; 
+            padding: 1rem; 
+            font-family: monospace; 
+            font-size: 0.8rem; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-header">
+        <h1>PEIP <span style="color:white">/ TEAM WAR ROOM</span></h1>
+        <div class="badge-live">● System Live: Ollama LLaMa3 Connected</div>
+    </div>
+
+    <!-- ROI Calculator Header -->
+    <div class="stat-grid" id="roiGrid">
+        <div class="stat-card">
+            <label>Portfolio Health</label>
+            <div class="value" style="color: var(--danger)">At Risk</div>
+        </div>
+        <div class="stat-card">
+            <label>Avg. Complexity (CC)</label>
+            <div class="value" id="valCC">13.0</div>
+        </div>
+        <div class="stat-card">
+            <label>Calculated ROI Saving</label>
+            <div class="value" id="valROI" style="color: var(--success)">₹0</div>
+        </div>
+        <div class="stat-card">
+            <label>DORA Score</label>
+            <div class="value" style="color: var(--warning)">Low</div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <div class="left-col">
+            <div class="card">
+                <h2>Vulnerability Predictions & AI Auto-Patches</h2>
+                <div id="repoGrid"></div>
+            </div>
+
+            <div class="card">
+                <h2>Complexity Heatmap (by File)</h2>
+                <div class="chart-container">
+                    <canvas id="complexityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            <div class="card">
+                <h2>Executive Assessment</h2>
+                <div id="ceoReport" style="font-size: 0.9rem; color: #e2e8f0;"></div>
+            </div>
+            <div class="card">
+                <h2>Pipeline Timeline</h2>
+                <div class="timeline" id="timelineLog"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = {"session_id": "7dddeb4e", "generated_at": "2026-04-10T05:15:18.811800", "repos_analyzed": ["fintech-core-v2"], "repos_skipped": [], "repos_failed": [], "git_history": {"fintech-core-v2": {"repo": "fintech-core-v2", "analysis_window_days": 0, "pydriller_available": false, "hotspot_files": [], "single_owner_hotspot_files": [], "bus_factor_risk_files": [], "file_churn_raw": {}, "file_churn_added_removed": {}, "top20_churn_files": [], "top20_hunk_files": [], "avg_files_changed_together": 0, "churn_trend": "unknown", "commit_frequency_per_week": 0.0, "deployment_frequency_per_month": 0.0, "bug_mttr_days": null, "github_api_source": "GitHub API (live)", "coupling_flag": false}}, "complexity": {"fintech-core-v2": {"repo": "fintech-core-v2", "files": {"compliance\\aml_checker.py": {"file": "compliance\\aml_checker.py", "cc_grade": "B", "cc_max": 9, "cc_max_fn": "detect_structuring", "mi_grade": "A", "mi_score": 69.3, "tdi": 1.4, "tdi_status": "Stable.", "comment_ratio": 0.048, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 9 decision paths (Grade B \u2014 Acceptable. Worth monitoring.) and a maintainability score of 69.3 (Grade A). Technical Debt Index: 1.4 \u2014 Stable."}, "core\\batch_processor.py": {"file": "core\\batch_processor.py", "cc_grade": "A", "cc_max": 3, "cc_max_fn": "process_batch_v2", "mi_grade": "A", "mi_score": 100.0, "tdi": 0.8, "tdi_status": "Stable.", "comment_ratio": 0.19, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 3 decision paths (Grade A \u2014 Simple, clean. Well-structured code.) and a maintainability score of 100.0 (Grade A). Technical Debt Index: 0.8 \u2014 Stable."}, "core\\transaction_manager.py": {"file": "core\\transaction_manager.py", "cc_grade": "A", "cc_max": 3, "cc_max_fn": "TransactionManager", "mi_grade": "A", "mi_score": 80.0, "tdi": 0.8, "tdi_status": "Stable.", "comment_ratio": 0.056, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 3 decision paths (Grade A \u2014 Simple, clean. Well-structured code.) and a maintainability score of 80.0 (Grade A). Technical Debt Index: 0.8 \u2014 Stable."}, "ledger\\reconciliation.py": {"file": "ledger\\reconciliation.py", "cc_grade": "C", "cc_max": 13, "cc_max_fn": "reconcile", "mi_grade": "A", "mi_score": 58.1, "tdi": 2.0, "tdi_status": "Stable.", "comment_ratio": 0.051, "churn_rate": 0.0, "flags": ["high_complexity"], "plain_english": "This file's most complex function has 13 decision paths (Grade C \u2014 Complex. Testing becomes difficult. Flag for refactor planning.) and a maintainability score of 58.1 (Grade A). Technical Debt Index: 2.0 \u2014 Stable."}, "ledger\\transaction.py": {"file": "ledger\\transaction.py", "cc_grade": "A", "cc_max": 5, "cc_max_fn": "reverse_transaction", "mi_grade": "A", "mi_score": 61.4, "tdi": 0.8, "tdi_status": "Stable.", "comment_ratio": 0.085, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 5 decision paths (Grade A \u2014 Simple, clean. Well-structured code.) and a maintainability score of 61.4 (Grade A). Technical Debt Index: 0.8 \u2014 Stable."}, "payments\\gateway.py": {"file": "payments\\gateway.py", "cc_grade": "B", "cc_max": 6, "cc_max_fn": "charge", "mi_grade": "A", "mi_score": 65.8, "tdi": 1.4, "tdi_status": "Stable.", "comment_ratio": 0.082, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 6 decision paths (Grade B \u2014 Acceptable. Worth monitoring.) and a maintainability score of 65.8 (Grade A). Technical Debt Index: 1.4 \u2014 Stable."}, "tests\\test_batch.py": {"file": "tests\\test_batch.py", "cc_grade": "A", "cc_max": 2, "cc_max_fn": "test_empty", "mi_grade": "A", "mi_score": 78.5, "tdi": 0.8, "tdi_status": "Stable.", "comment_ratio": 0.0, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 2 decision paths (Grade A \u2014 Simple, clean. Well-structured code.) and a maintainability score of 78.5 (Grade A). Technical Debt Index: 0.8 \u2014 Stable."}, "tests\\test_core.py": {"file": "tests\\test_core.py", "cc_grade": "A", "cc_max": 2, "cc_max_fn": "test_sanity", "mi_grade": "A", "mi_score": 78.5, "tdi": 0.8, "tdi_status": "Stable.", "comment_ratio": 0.0, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 2 decision paths (Grade A \u2014 Simple, clean. Well-structured code.) and a maintainability score of 78.5 (Grade A). Technical Debt Index: 0.8 \u2014 Stable."}, "tests\\test_transaction.py": {"file": "tests\\test_transaction.py", "cc_grade": "A", "cc_max": 5, "cc_max_fn": "test_create_transaction", "mi_grade": "A", "mi_score": 68.0, "tdi": 0.8, "tdi_status": "Stable.", "comment_ratio": 0.138, "churn_rate": 0.0, "flags": [], "plain_english": "This file's most complex function has 5 decision paths (Grade A \u2014 Simple, clean. Well-structured code.) and a maintainability score of 68.0 (Grade A). Technical Debt Index: 0.8 \u2014 Stable."}}, "repo_summary": {"total_python_files": 9, "grade_distribution": {"A": 6, "B": 2, "C": 1, "D": 0, "E": 0, "F": 0}, "pct_grade_C_or_worse": 0.11, "highest_tdi_file": "ledger\\reconciliation.py", "highest_tdi_value": 2.0, "highest_cc_function": {"name": "reconcile", "cc": 13, "file": "ledger\\reconciliation.py"}}}}, "risk_flags": {"fintech-core-v2": {"repo": "fintech-core-v2", "repo_classification": "AT RISK", "primary_signal": "CC = 13 (Grade C) \u2014 complex, testing becomes difficult.", "total_components": 9, "critical_count": 0, "at_risk_count": 9, "components": [{"file": "compliance\\aml_checker.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 9 decision paths (Grade B), a churn rate of 0%, and a TDI of 1.4. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "core\\batch_processor.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 3 decision paths (Grade A), a churn rate of 0%, and a TDI of 0.8. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "core\\transaction_manager.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 3 decision paths (Grade A), a churn rate of 0%, and a TDI of 0.8. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "ledger\\reconciliation.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "CC = 13 (Grade C) \u2014 complex, testing becomes difficult.", "threshold": "CC 11-20 (Grade C)", "source": "Radon docs \u2014 CC 11-20 (Grade C): complex, testing becomes difficult."}, {"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 2, "failure_probability": "High \u2014 2 risk thresholds crossed.", "plain_english": "This file has 13 decision paths (Grade C), a churn rate of 0%, and a TDI of 2.0. 2 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "ledger\\transaction.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 5 decision paths (Grade A), a churn rate of 0%, and a TDI of 0.8. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "payments\\gateway.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 6 decision paths (Grade B), a churn rate of 0%, and a TDI of 1.4. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "tests\\test_batch.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 2 decision paths (Grade A), a churn rate of 0%, and a TDI of 0.8. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "tests\\test_core.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 2 decision paths (Grade A), a churn rate of 0%, and a TDI of 0.8. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}, {"file": "tests\\test_transaction.py", "classification": "AT RISK", "signals_triggered": [{"level": "AT_RISK", "signal": "Deployment frequency 0.00/week \u2014 less than once per month.", "threshold": "DF < once/month (DORA 2024 Low)", "source": "DORA 2024 \u2014 deployment frequency < once per month."}], "signal_count": 1, "failure_probability": "Moderate \u2014 1 risk threshold crossed.", "plain_english": "This file has 5 decision paths (Grade A), a churn rate of 0%, and a TDI of 0.8. 1 risk threshold(s) crossed \u2014 plan refactor within 30 days."}], "methodology_note": "Classification is signal-level, not composite-score-based. 90-day failure probability is qualitative (signal count), not a percentage. A percentage would require a trained model on known-failing repos."}}, "ceo_report": "# Engineering Business Risk Report\n\n**To:** Chief Executive Officer\n**From:** Predictive Engineering Intelligence Platform (PEIP / AI Multi-Agent Core)\n**Date:** April 10, 2026\n**Methodology:** Signal-level classification \u2014 every finding is derived from a\nspecific published research threshold.\n\n---\n\n### \ud83e\udde0 AI Executive Assessment (by LLaMa3)\n> Here is a 2-paragraph executive summary:\n\nAs we review the metrics on our engineering codebases, I am compelled to highlight two critical areas of concern. Firstly, our 'at-risk' repository, fintech-core-v2, requires immediate attention due to its inherent complexity and high churn rate. This codebase's fragility creates a significant liability, not only in terms of maintenance costs but also in the potential for errors and security breaches. If left unchecked, this risk can have far-reaching consequences on our business operations and customer trust.\n\nThe financial impacts of addressing these issues cannot be overstated. Our current invisible waste cost, estimated at INR 5,000 per month, is a mere fraction of the total potential costs if we fail to act. I strongly recommend that we prioritize code simplification and refactoring in fintech-core-v2 to reduce complexity and minimize churn. This effort will not only alleviate our risk exposure but also free up resources for more strategic initiatives, ultimately driving business growth and increasing shareholder value.\n\n---\n\n\n\n## 1. THE SITUATION\n\nAll 1 platforms are operational, but 1 have crossed warning thresholds that will compound into larger failures if not addressed within 30 days.\n\n---\n\n## 2. WHAT COULD GO WRONG\n\n\n### fintech-core-v2 \u2014 AT RISK\n\n**What this software does for the business:**\nThis platform handles core user-facing operations. A failure directly\nimpacts customer experience and service availability.\n\n**What could go wrong:**\n- Deployment frequency 0.00/week \u2014 less than once per month. *(Source: DORA 2024 \u2014 deployment frequency < once per month....)*\n- Deployment frequency 0.00/week \u2014 less than once per month. *(Source: DORA 2024 \u2014 deployment frequency < once per month....)*\n- Deployment frequency 0.00/week \u2014 less than once per month. *(Source: DORA 2024 \u2014 deployment frequency < once per month....)*\n\n**The measurement that triggered this alert:**\nThe most complex function in this codebase has **13 decision paths**\n(Grade C on Radon's published scale \u2014 the research benchmark for\ninstability is Grade C, which starts at 11 paths).\n\nRecovery time from past incidents: **unknown** (research benchmark: under 1 week).\nCommit activity trend: **unknown**.\n\n**Cost comparison:**\n\n| Timing | Calculation | Cost |\n|:---|:---|:---|\n| Fix now (design stage) | 3 hrs \u00d7 INR 2,500/hr | **INR 7,500** |\n| Fix after production failure | INR 7,500 \u00d7 100x IBM multiplier | **INR 750,000** |\n\n\n---\n\n## 3. THE INVISIBLE TAX\n\nAcross all platforms, **1 functions** have complexity scores above the safe threshold (Grade C or worse \u2014 meaning more than 10 decision paths each, where testing starts breaking down).\n\nYour team spends approximately **0.5 hours per week** navigating this complexity instead of building new features.\n\n*Calculation: 1 grade-C+ functions \u00d7 0.5 hrs avg weekly debug overhead = 0.5 hrs/week \u00d7 INR 2,500/hr = INR 1,250/week = **INR 5,000/month in invisible waste.**\n\n---\n\n## 4. WHAT WE RECOMMEND\n\n*Ranked by number of critical signals \u00d7 business impact \u00f7 fix cost.*\n\n| What to Fix | Why | Fix Cost | Cost of Ignoring |\n|:---|:---|:---|:---|\n| fintech-core-v2 | CC = 13 (Grade C) \u2014 complex, testing becomes difficult.... | 3 hrs \u00d7 INR 2,500/hr = INR 7,500 | INR 750,000 |\n\n---\n\n## ONE SENTENCE FOR THE BOARD\n\n*Our software portfolio is well-maintained \u2014 the team should continue disciplined engineering practices and review complexity quarterly.*\n\n---\n\n*All thresholds in this report are traceable to published research:\nMcCabe 1976 (IEEE), Radon docs, Coleman et al. 1994 (IEEE), Munson & Elbaum 1998 (IEEE),\nSpadini et al. 2018 (ESEC/FSE), DORA 2024/2025 (Google), arXiv 2026 (Hotspot),\nVan Deursen 2014.*\n", "patches": {"fintech-core-v2": [{"file": "ledger\\reconciliation.py", "original_grade": "C", "patch_path": "C:\\Users\\knani\\Downloads\\SUNHACKS_FINAL\\peip_workspace\\fintech-core-v2\\ledger\\reconciliation.py.patched", "validation_status": "VERIFIED_SUCCESS", "original_content": "Could not load original source.", "patched_content": "Could not load patched source."}]}, "bug_predictions": {"fintech-core-v2": {"target_file": "ledger\\reconciliation.py", "cc": 13, "predictions": "**Predicted Crashes/Bugs and Recommendations**\n\nBased on the provided source code, I predict that the following crashes/bugs may occur in the future under load:\n\n* **BUG-005: Off-by-one error**: Transactions on `date_to` are currently excluded because of the `<` comparison. This will cause a loss of data. **Recommendation:** Update the comparison to `<= end` to include transactions on the specified date.\n* **CRASH: N+1 query pattern**: The `reconcile` method iterates over all external records for each internal record, leading to a significant performance degradation under load. **Recommendation:** Optimize the loop by using a more efficient data structure or caching the filtered external records.\n* **BUG-006: Silent data corruption**: The `_calculate_confidence` method can produce negative scores, which may cause unexpected behavior. **Recommendation:** Clamp the score to ensure it remains between 0.0 and 1.0.\n\nTo mitigate these issues, I recommend:\n\n1. Reviewing the `reconcile` method to reduce its computational complexity.\n2. Implementing caching or indexing for efficient data retrieval.\n3. Ensuring that all calculations are numerically stable and produce valid results.\n\n**Additional Recommendations:**\n\n* Consider using a more robust date range filtering mechanism, such as using the `datetime.date` class's `range()` method.\n* Use type hints and docstrings to improve code readability and maintainability.\n* Consider splitting the `ReconciliationEngine` class into smaller, more focused classes for improved organization and reusability.\n\n**Data Context:**\n\nThe provided data context is:\n```json\n{\n  \"repo\": \"fintech-core-v2\"\n}\n```\nThis information may be useful in understanding the broader context of the reconciliation engine and identifying potential issues or areas for improvement."}}, "pipeline_warnings": ["[Scenario 5: insufficient_commits] 'fintech-core-v2' has fewer than 10 commits in the window. Predictions are unreliable \u2014 results flagged as low-confidence.", "[Scenario 4: pydriller_unavailable] PyDriller unavailable for 'fintech-core-v2'. Using GitHub API data only. Churn/hunk metrics will be absent.", "[fintech-core-v2] 'fintech-core-v2' has fewer than 10 commits in the window. Predictions are unreliable \u2014 results flagged as low-confidence.", "[fintech-core-v2] Commit frequency 0.00/week \u2014 low confidence.", "[fintech-core-v2] PyDriller unavailable for 'fintech-core-v2'. Using GitHub API data only. Churn/hunk metrics will be absent."], "pipeline_log": [{"ts": "2026-04-10T05:13:53.488572", "level": "TRANSITION", "step": "IDLE", "repo": null, "message": "IDLE -> FETCH"}, {"ts": "2026-04-10T05:13:53.488572", "level": "INFO", "step": "FETCH", "repo": "fintech-core-v2", "message": "Starting fetch for fintech-core-v2"}, {"ts": "2026-04-10T05:13:57.429397", "level": "WARN", "step": "FETCH", "repo": "fintech-core-v2", "message": "[Scenario 5: insufficient_commits] 'fintech-core-v2' has fewer than 10 commits in the window. Predictions are unreliable \u2014 results flagged as low-confidence."}, {"ts": "2026-04-10T05:13:57.429397", "level": "WARN", "step": "FETCH", "repo": "fintech-core-v2", "message": "[Scenario 4: pydriller_unavailable] PyDriller unavailable for 'fintech-core-v2'. Using GitHub API data only. Churn/hunk metrics will be absent."}, {"ts": "2026-04-10T05:13:57.429397", "level": "INFO", "step": "FETCH", "repo": "fintech-core-v2", "message": "Fetched OK. pydriller=False"}, {"ts": "2026-04-10T05:13:57.429397", "level": "TRANSITION", "step": "FETCH", "repo": null, "message": "FETCH -> MINE"}, {"ts": "2026-04-10T05:13:57.430901", "level": "INFO", "step": "MINE", "repo": "fintech-core-v2", "message": "Building complexity payload"}, {"ts": "2026-04-10T05:13:57.883475", "level": "INFO", "step": "MINE", "repo": "fintech-core-v2", "message": "Complexity OK \u2014 9 files, 11% grade C+"}, {"ts": "2026-04-10T05:13:57.883475", "level": "TRANSITION", "step": "MINE", "repo": null, "message": "MINE -> ANALYZE"}, {"ts": "2026-04-10T05:13:57.884481", "level": "INFO", "step": "ANALYZE", "repo": "fintech-core-v2", "message": "Building risk analysis payload"}, {"ts": "2026-04-10T05:13:57.884481", "level": "INFO", "step": "ANALYZE", "repo": "fintech-core-v2", "message": "Risk OK \u2014 classification=AT RISK"}, {"ts": "2026-04-10T05:13:57.884481", "level": "TRANSITION", "step": "ANALYZE", "repo": null, "message": "ANALYZE -> SCORE"}, {"ts": "2026-04-10T05:13:57.885481", "level": "TRANSITION", "step": "SCORE", "repo": null, "message": "SCORE -> PATCH"}, {"ts": "2026-04-10T05:13:57.887801", "level": "INFO", "step": "PATCH", "repo": "fintech-core-v2", "message": "Querying Ollama LLaMa3 for patches..."}, {"ts": "2026-04-10T05:14:43.541691", "level": "TRANSITION", "step": "PATCH", "repo": null, "message": "PATCH -> PREDICT"}, {"ts": "2026-04-10T05:14:43.546667", "level": "INFO", "step": "PREDICT", "repo": "fintech-core-v2", "message": "Querying Ollama LLaMa3 for Exact Crash Predictions..."}, {"ts": "2026-04-10T05:15:05.156228", "level": "TRANSITION", "step": "PREDICT", "repo": null, "message": "PREDICT -> REPORT"}, {"ts": "2026-04-10T05:15:18.808752", "level": "INFO", "step": "REPORT", "repo": null, "message": "CEO report generated OK"}, {"ts": "2026-04-10T05:15:18.808752", "level": "TRANSITION", "step": "REPORT", "repo": null, "message": "REPORT -> DELIVER"}]};
+
+        const hrRate = 2500;
+        let totalCC = 0;
+        let cfsLength = 0;
+
+        // Render Report
+        document.getElementById('ceoReport').innerHTML = marked.parse(data.ceo_report || 'No report found.');
+        
+        // Render Repository Cards & Diffs
+        const grid = document.getElementById('repoGrid');
+        
+        const labels = [];
+        const ccData = [];
+        const bgColors = [];
+
+        data.repos_analyzed.forEach(repo => {
+            const risk = data.risk_flags[repo] || {};
+            const bp = data.bug_predictions[repo] || {};
+            const patches = data.patches && data.patches[repo] ? data.patches[repo] : [];
+            
+            // For ROI graph
+            if (data.complexity && data.complexity[repo] && data.complexity[repo].files) {
+                const fls = data.complexity[repo].files;
+                for (const path in fls) {
+                    labels.push(path.split(/[\\/]/).pop());
+                    ccData.push(fls[path].cc_max);
+                    bgColors.push(fls[path].cc_grade >= 'C' ? '#ef4444' : '#38bdf8');
+                    totalCC += fls[path].cc_max;
+                    cfsLength++;
+                }
+            }
+
+            let cardHtml = `
+                <div style="margin-bottom: 2rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center">
+                        <h3 style="margin:0; font-size: 1.2rem;">${repo}</h3>
+                        <span class="badge-live" style="background: rgba(239, 68, 68, 0.1); color: var(--danger)">Status: ${risk.repo_classification || 'UNKNOWN'}</span>
+                    </div>
+                    <p style="color:#94a3b8; font-size: 0.85rem;">Primary Risk: ${risk.primary_signal || 'N/A'}</p>
+            `;
+
+            if (bp.predictions) {
+                cardHtml += `
+                    <div class="prediction-box">
+                        <div class="prediction-header">
+                            <i class="lucide-bot" style="margin-right:8px"></i> AI CRASH PREDICTION
+                        </div>
+                        <pre>${bp.predictions}</pre>
+                    </div>`;
+            }
+
+            if (patches.length > 0) {
+                const patch = patches[0];
+                cardHtml += `
+                    <div class="prediction-box" style="margin-top:1rem; border-left-color:var(--success);">
+                        <div class="prediction-header" style="color:var(--success);">
+                            <i class="lucide-check" style="margin-right:8px"></i> AUTO-PATCH DIFF: <span style="margin-left: 0.5rem; color: #cbd5e1;">${patch.file}</span>
+                        </div>
+                        <div style="display:flex; gap:1rem; margin-top: 1rem;">
+                            <div style="flex:1;">
+                                <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.5rem;">BEFORE (Grade ${patch.original_grade})</div>
+                                <pre class="diff-code" style="background:#2C161D; border: 1px solid #7F1D1D;">${patch.original_content ? patch.original_content.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "N/A"}</pre>
+                            </div>
+                            <div style="flex:1;">
+                                <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:0.5rem;">AFTER (Status: ${patch.validation_status})</div>
+                                <pre class="diff-code" style="background:#0F291E; border: 1px solid #065F46;">${patch.patched_content ? patch.patched_content.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "N/A"}</pre>
+                            </div>
+                        </div>
+                        <button class="btn-action" style="margin-top:1rem; background:var(--success); color:#fff;" onclick="alert('Creating Git Branch & Pull Request...')">
+                            Commit Patch & Open PR
+                        </button>
+                    </div>
+                `;
+            }
+
+            cardHtml += `</div>`;
+            grid.innerHTML += cardHtml;
+        });
+
+        // ROI Calculator values
+        const avgCC = cfsLength > 0 ? (totalCC / cfsLength).toFixed(1) : 0;
+        document.getElementById('valCC').innerText = avgCC;
+        
+        // Return On Investment: (AvgCC * 0.5 hrs) * hourly_rate
+        const roi = (avgCC * 0.5) * hrRate;
+        document.getElementById('valROI').innerText = "₹" + Math.round(roi).toLocaleString();
+
+        // Chart
+        if(document.getElementById('complexityChart')) {
+            const ctx = document.getElementById('complexityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cyclomatic Complexity',
+                        data: ccData,
+                        backgroundColor: bgColors,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#1e293b' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Timeline
+        if(data.pipeline_log) {
+            const tl = document.getElementById('timelineLog');
+            data.pipeline_log.forEach(log => {
+                const date = new Date(log.ts);
+                const timeStr = date.getHours().toString().padStart(2, '0') + ":" + 
+                                date.getMinutes().toString().padStart(2, '0') + ":" + 
+                                date.getSeconds().toString().padStart(2, '0');
+                let clr = '#cbd5e1';
+                if(log.level === 'WARN') clr = '#f59e0b';
+                else if(log.level === 'TRANSITION') clr = '#38bdf8';
+                
+                tl.innerHTML += `
+                <div class="timeline-item">
+                    <div class="time">${timeStr} <span style="color: ${clr}; font-weight: bold; margin-left:8px;">[${log.level}]</span></div>
+                    <div class="message">${log.message}</div>
+                </div>`;
+            });
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+[
+  {
+    "repository": "fintech-core-v2",
+    "metrics": {
+      "git": {
+        "total_commits": 45,
+        "total_churn": 1331,
+        "hotspots": [
+          "SYNTHETIC_HISTORY.json",
+          "transaction.py",
+          "gateway.py"
+        ]
+      },
+      "complexity": {
+        "maintainability_index": 81.51
+      },
+      "bugs": {
+        "bug_count": 3,
+        "pr_count": 9
+      }
+    },
+    "health": {
+      "score": 94,
+      "category": "HEALTHY",
+      "reasoning": "MI is 81.51, had 3 closed bugs. Churn was 1331 lines."
+    }
+  },
+  {
+    "repository": "scalechat-realtime",
+    "metrics": {
+      "git": {
+        "total_commits": 45,
+        "total_churn": 976,
+        "hotspots": [
+          "SYNTHETIC_HISTORY.json",
+          "message_store.py",
+          "connection_manager.py"
+        ]
+      },
+      "complexity": {
+        "maintainability_index": 86.5
+      },
+      "bugs": {
+        "bug_count": 12,
+        "pr_count": 36
+      }
+    },
+    "health": {
+      "score": 76,
+      "category": "STABLE",
+      "reasoning": "MI is 86.5, had 12 closed bugs. Churn was 976 lines."
+    }
+  },
+  {
+    "repository": "socialhive-api",
+    "metrics": {
+      "git": {
+        "total_commits": 45,
+        "total_churn": 817,
+        "hotspots": [
+          "SYNTHETIC_HISTORY.json",
+          "HISTORY.md",
+          "user_manager.py"
+        ]
+      },
+      "complexity": {
+        "maintainability_index": 88.76
+      },
+      "bugs": {
+        "bug_count": 15,
+        "pr_count": 45
+      }
+    },
+    "health": {
+      "score": 70,
+      "category": "STABLE",
+      "reasoning": "MI is 88.76, had 15 closed bugs. Churn was 817 lines."
+    }
+  },
+  {
+    "repository": "PROJECT_1",
+    "metrics": {
+      "git": {
+        "total_commits": 1,
+        "total_churn": 176,
+        "hotspots": [
+          "style.css",
+          "index.html",
+          "script.js"
+        ]
+      },
+      "complexity": {
+        "maintainability_index": 100
+      },
+      "bugs": {
+        "bug_count": 13,
+        "pr_count": 39
+      }
+    },
+    "health": {
+      "score": 74,
+      "category": "STABLE",
+      "reasoning": "MI is 100, had 13 closed bugs. Churn was 176 lines."
+    }
+  },
+  {
+    "repository": "PROJECT_2",
+    "metrics": {
+      "git": {
+        "total_commits": 1,
+        "total_churn": 1481,
+        "hotspots": [
+          "VIHCS_GUI.m",
+          "VIHCS_Evaluation.m",
+          "embed_dwt_2l.m"
+        ]
+      },
+      "complexity": {
+        "maintainability_index": 100
+      },
+      "bugs": {
+        "bug_count": 16,
+        "pr_count": 48
+      }
+    },
+    "health": {
+      "score": 68,
+      "category": "STABLE",
+      "reasoning": "MI is 100, had 16 closed bugs. Churn was 1481 lines."
+    }
+  },
+  {
+    "repository": "THIRD-PROJECT",
+    "metrics": {
+      "git": {
+        "total_commits": 1,
+        "total_churn": 72660,
+        "hotspots": [
+          "gif_frames.h",
+          "gif_to_rgb565.py",
+          "README.md"
+        ]
+      },
+      "complexity": {
+        "maintainability_index": 52.91
+      },
+      "bugs": {
+        "bug_count": 21,
+        "pr_count": 63
+      }
+    },
+    "health": {
+      "score": 38,
+      "category": "CRITICAL",
+      "reasoning": "MI is 52.91, had 21 closed bugs. Churn was 72660 lines."
+    }
+  }
+]

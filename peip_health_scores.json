@@ -1,0 +1,402 @@
+[
+  {
+    "repository": "fintech-core-v2",
+    "classification": "HEALTHY",
+    "display": "HEALTHY \u2014 All signals within research-validated healthy bounds. No action needed.",
+    "classification_reason": "All signals within research-validated healthy bounds. No action needed.",
+    "signals": {
+      "cyclomatic_complexity": {
+        "value": 4,
+        "grade": "A",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      "maintainability_index": {
+        "value": 82,
+        "grade": "A",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented.",
+        "caveat": "Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      "code_churn": {
+        "rate": 0.05,
+        "label": "stable",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      "bus_factor": {
+        "value": 3,
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      "hotspot": {
+        "triggered": false,
+        "source": null
+      },
+      "dora": {
+        "breakdown": {
+          "deployment_frequency": "Elite",
+          "lead_time": "Elite",
+          "change_failure_rate": "Elite",
+          "mttr": "Elite",
+          "rework_rate": "Good"
+        },
+        "archetype": "Sustainable Performance",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands. DORA 2025 (5,000 respondents) \u2014 7 archetypes replacing 4-tier model."
+      }
+    },
+    "flags_triggered": [],
+    "methodology_note": "Classification is signal-level, not composite-score-based. No universal composite bands exist in peer-reviewed literature. Each flag traces to a specific published threshold. See CodeScene/Tornhill for the only calibrated code health scale (1-10, healthy >= 9.0)."
+  },
+  {
+    "repository": "scalechat-realtime",
+    "classification": "STABLE",
+    "display": "STABLE \u2014 All signals within acceptable bounds. Monitor quarterly.",
+    "classification_reason": "All signals within acceptable bounds. Monitor quarterly.",
+    "signals": {
+      "cyclomatic_complexity": {
+        "value": 8,
+        "grade": "B",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      "maintainability_index": {
+        "value": 71,
+        "grade": "A",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented.",
+        "caveat": "Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      "code_churn": {
+        "rate": 0.15,
+        "label": "moderate",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      "bus_factor": {
+        "value": 2,
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      "hotspot": {
+        "triggered": false,
+        "source": null
+      },
+      "dora": {
+        "breakdown": {
+          "deployment_frequency": "High",
+          "lead_time": "High",
+          "change_failure_rate": "High",
+          "mttr": "High",
+          "rework_rate": "Moderate"
+        },
+        "archetype": "Sustainable Performance",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands. DORA 2025 (5,000 respondents) \u2014 7 archetypes replacing 4-tier model."
+      }
+    },
+    "flags_triggered": [],
+    "methodology_note": "Classification is signal-level, not composite-score-based. No universal composite bands exist in peer-reviewed literature. Each flag traces to a specific published threshold. See CodeScene/Tornhill for the only calibrated code health scale (1-10, healthy >= 9.0)."
+  },
+  {
+    "repository": "socialhive-api",
+    "classification": "CRITICAL",
+    "display": "CRITICAL \u2014 reason: HOTSPOT: File in top 20% churn with CC Grade C \u2014 strongest predictor of future defects.",
+    "classification_reason": "Act immediately \u2014 at least one research-validated critical threshold crossed.",
+    "signals": {
+      "cyclomatic_complexity": {
+        "value": 14,
+        "grade": "C",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      "maintainability_index": {
+        "value": 25,
+        "grade": "A",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented.",
+        "caveat": "Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      "code_churn": {
+        "rate": 0.4,
+        "label": "high_flux",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      "bus_factor": {
+        "value": 2,
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      "hotspot": {
+        "triggered": true,
+        "source": "arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      "dora": {
+        "breakdown": {
+          "deployment_frequency": "Medium",
+          "lead_time": "Medium",
+          "change_failure_rate": "Medium",
+          "mttr": "Medium",
+          "rework_rate": "Moderate"
+        },
+        "archetype": "Struggling",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands. DORA 2025 (5,000 respondents) \u2014 7 archetypes replacing 4-tier model."
+      }
+    },
+    "flags_triggered": [
+      {
+        "level": "AT_RISK",
+        "signal": "CC = 14 (Grade C) \u2014 complex, testing becomes difficult. Flag for refactor planning.",
+        "threshold": "CC 11-20 (Grade C)",
+        "source": "rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Churn rate 40% exceeds 30% threshold \u2014 validated fault surrogate.",
+        "threshold": "> 30% LOC changed in 90 days",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "HOTSPOT: File in top 20% churn with CC Grade C \u2014 strongest predictor of future defects.",
+        "threshold": "Top 20% churn + CC grade C or worse",
+        "source": "arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      }
+    ],
+    "methodology_note": "Classification is signal-level, not composite-score-based. No universal composite bands exist in peer-reviewed literature. Each flag traces to a specific published threshold. See CodeScene/Tornhill for the only calibrated code health scale (1-10, healthy >= 9.0)."
+  },
+  {
+    "repository": "PROJECT_1",
+    "classification": "CRITICAL",
+    "display": "CRITICAL \u2014 reason: CC = 25 (Grade D) \u2014 any function CC >= 21 is high risk, act now.; HOTSPOT: File in top 20% churn with CC Grade D \u2014 strongest predictor of future defects.; Single contributor owns > 80% of a hotspot file \u2014 fragile + single-owner = extreme risk.; Change failure rate 20% exceeds 15% \u2014 unstable delivery.; Mean time to recovery 10.0 days exceeds 1 week \u2014 slow recovery.",
+    "classification_reason": "Act immediately \u2014 at least one research-validated critical threshold crossed.",
+    "signals": {
+      "cyclomatic_complexity": {
+        "value": 25,
+        "grade": "D",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      "maintainability_index": {
+        "value": 15,
+        "grade": "B",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented.",
+        "caveat": "Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      "code_churn": {
+        "rate": 0.55,
+        "label": "high_flux",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      "bus_factor": {
+        "value": 1,
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      "hotspot": {
+        "triggered": true,
+        "source": "arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      "dora": {
+        "breakdown": {
+          "deployment_frequency": "Low",
+          "lead_time": "Low",
+          "change_failure_rate": "Low",
+          "mttr": "Low",
+          "rework_rate": "Concerning"
+        },
+        "archetype": "Struggling",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands. DORA 2025 (5,000 respondents) \u2014 7 archetypes replacing 4-tier model."
+      }
+    },
+    "flags_triggered": [
+      {
+        "level": "CRITICAL",
+        "signal": "CC = 25 (Grade D) \u2014 any function CC >= 21 is high risk, act now.",
+        "threshold": "CC >= 21 (Grade D+)",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Churn rate 55% exceeds 30% threshold \u2014 validated fault surrogate.",
+        "threshold": "> 30% LOC changed in 90 days",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Bus factor = 1 \u2014 sole non-minor contributor. Single point of failure.",
+        "threshold": "Bus factor = 1 (sole contributor with > 5% ownership)",
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "HOTSPOT: File in top 20% churn with CC Grade D \u2014 strongest predictor of future defects.",
+        "threshold": "Top 20% churn + CC grade C or worse",
+        "source": "arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "Single contributor owns > 80% of a hotspot file \u2014 fragile + single-owner = extreme risk.",
+        "threshold": "Single contributor > 80% on top-churn file",
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines. arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Deployment frequency 0.10/week \u2014 less than once per month.",
+        "threshold": "< once per month (DORA 2024 'Low' band)",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "Change failure rate 20% exceeds 15% \u2014 unstable delivery.",
+        "threshold": "CFR > 15% (DORA 2024 'Low' band)",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "Mean time to recovery 10.0 days exceeds 1 week \u2014 slow recovery.",
+        "threshold": "MTTR > 1 week (DORA 2024 'Low' band)",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands."
+      }
+    ],
+    "methodology_note": "Classification is signal-level, not composite-score-based. No universal composite bands exist in peer-reviewed literature. Each flag traces to a specific published threshold. See CodeScene/Tornhill for the only calibrated code health scale (1-10, healthy >= 9.0)."
+  },
+  {
+    "repository": "PROJECT_2",
+    "classification": "AT RISK",
+    "display": "AT RISK \u2014 reason: CC = 12 (Grade C) \u2014 complex, testing becomes difficult. Flag for refactor planning.",
+    "classification_reason": "Plan action within 30 days \u2014 research-validated warning thresholds crossed.",
+    "signals": {
+      "cyclomatic_complexity": {
+        "value": 12,
+        "grade": "C",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      "maintainability_index": {
+        "value": 45,
+        "grade": "A",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented.",
+        "caveat": "Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      "code_churn": {
+        "rate": 0.25,
+        "label": "moderate",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      "bus_factor": {
+        "value": 2,
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      "hotspot": {
+        "triggered": false,
+        "source": null
+      },
+      "dora": {
+        "breakdown": {
+          "deployment_frequency": "Medium",
+          "lead_time": "High",
+          "change_failure_rate": "High",
+          "mttr": "Medium",
+          "rework_rate": "Moderate"
+        },
+        "archetype": "Cautious Delivery",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands. DORA 2025 (5,000 respondents) \u2014 7 archetypes replacing 4-tier model."
+      }
+    },
+    "flags_triggered": [
+      {
+        "level": "AT_RISK",
+        "signal": "CC = 12 (Grade C) \u2014 complex, testing becomes difficult. Flag for refactor planning.",
+        "threshold": "CC 11-20 (Grade C)",
+        "source": "rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      }
+    ],
+    "methodology_note": "Classification is signal-level, not composite-score-based. No universal composite bands exist in peer-reviewed literature. Each flag traces to a specific published threshold. See CodeScene/Tornhill for the only calibrated code health scale (1-10, healthy >= 9.0)."
+  },
+  {
+    "repository": "THIRD-PROJECT",
+    "classification": "CRITICAL",
+    "display": "CRITICAL \u2014 reason: CC = 45 (Grade F) \u2014 any function CC >= 21 is high risk, act now.; HOTSPOT: File in top 20% churn with CC Grade F \u2014 strongest predictor of future defects.; Single contributor owns > 80% of a hotspot file \u2014 fragile + single-owner = extreme risk.; Change failure rate 30% exceeds 15% \u2014 unstable delivery.; Mean time to recovery 20.0 days exceeds 1 week \u2014 slow recovery.",
+    "classification_reason": "Act immediately \u2014 at least one research-validated critical threshold crossed.",
+    "signals": {
+      "cyclomatic_complexity": {
+        "value": 45,
+        "grade": "F",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      "maintainability_index": {
+        "value": 5,
+        "grade": "C",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented.",
+        "caveat": "Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      "code_churn": {
+        "rate": 0.85,
+        "label": "high_flux",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      "bus_factor": {
+        "value": 1,
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      "hotspot": {
+        "triggered": true,
+        "source": "arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      "dora": {
+        "breakdown": {
+          "deployment_frequency": "Low",
+          "lead_time": "Low",
+          "change_failure_rate": "Low",
+          "mttr": "Low",
+          "rework_rate": "Concerning"
+        },
+        "archetype": "Struggling",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands. DORA 2025 (5,000 respondents) \u2014 7 archetypes replacing 4-tier model."
+      }
+    },
+    "flags_triggered": [
+      {
+        "level": "CRITICAL",
+        "signal": "CC = 45 (Grade F) \u2014 any function CC >= 21 is high risk, act now.",
+        "threshold": "CC >= 21 (Grade D+)",
+        "source": "McCabe 1976, IEEE Trans. Software Eng. \u2014 CC as count of linearly independent paths. rubik/radon official docs \u2014 Grade scale A=1-5, B=6-10, C=11-20, D=21-30, E=31-40, F=41+."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "MI = 5 (Grade C) combined with CC Grade F \u2014 both structure and readability are degraded.",
+        "threshold": "MI < 10 AND CC >= Grade B",
+        "source": "Coleman et al., IEEE Computer 1994 \u2014 MI formula documented. Van Deursen 2014 \u2014 'Think Twice Before Using MI.' Experimental metric, pair with CC."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Churn rate 85% exceeds 30% threshold \u2014 validated fault surrogate.",
+        "threshold": "> 30% LOC changed in 90 days",
+        "source": "Munson & Elbaum, IEEE 1998 \u2014 Code churn validated as fault surrogate."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Bus factor = 1 \u2014 sole non-minor contributor. Single point of failure.",
+        "threshold": "Bus factor = 1 (sole contributor with > 5% ownership)",
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "HOTSPOT: File in top 20% churn with CC Grade F \u2014 strongest predictor of future defects.",
+        "threshold": "Top 20% churn + CC grade C or worse",
+        "source": "arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "Single contributor owns > 80% of a hotspot file \u2014 fragile + single-owner = extreme risk.",
+        "threshold": "Single contributor > 80% on top-churn file",
+        "source": "Spadini et al., ESEC/FSE 2018 \u2014 PyDriller process metrics. Minor contributor = <5% lines. arXiv 2026 Hotspot Paper \u2014 Top 20% churn + CC grade C = hotspot. Exclude bot commits."
+      },
+      {
+        "level": "AT_RISK",
+        "signal": "Deployment frequency 0.10/week \u2014 less than once per month.",
+        "threshold": "< once per month (DORA 2024 'Low' band)",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "Change failure rate 30% exceeds 15% \u2014 unstable delivery.",
+        "threshold": "CFR > 15% (DORA 2024 'Low' band)",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands."
+      },
+      {
+        "level": "CRITICAL",
+        "signal": "Mean time to recovery 20.0 days exceeds 1 week \u2014 slow recovery.",
+        "threshold": "MTTR > 1 week (DORA 2024 'Low' band)",
+        "source": "DORA 2024 (Google, 39,000+ respondents) \u2014 5 metrics, 4-tier benchmark bands."
+      }
+    ],
+    "methodology_note": "Classification is signal-level, not composite-score-based. No universal composite bands exist in peer-reviewed literature. Each flag traces to a specific published threshold. See CodeScene/Tornhill for the only calibrated code health scale (1-10, healthy >= 9.0)."
+  }
+]
