@@ -1,1 +1,0 @@
-'Agentic Architecture activated by LLaMa3 entirely on 6GB VRAM!' 

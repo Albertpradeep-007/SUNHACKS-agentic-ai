@@ -1,0 +1,308 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, sans-serif); }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; padding-top: 1rem; }
+  .tab { padding: 6px 14px; border-radius: var(--border-radius-md, 8px); border: 0.5px solid var(--color-border-secondary); font-size: 13px; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all .15s; }
+  .tab.active { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); font-weight: 500; }
+  .tab:hover:not(.active) { background: var(--color-background-secondary); }
+  .section { display: none; }
+  .section.active { display: block; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .card { background: var(--color-background-secondary); border-radius: var(--border-radius-lg, 12px); padding: 1rem; border: 0.5px solid var(--color-border-tertiary); }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+  .card-sub { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; margin-right: 4px; margin-bottom: 4px; }
+  .b-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .b-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .b-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .b-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .b-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-secondary); }
+  .section-head { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; }
+  .timeline-item { display: flex; gap: 14px; margin-bottom: 14px; }
+  .tl-dot { flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; margin-top: 4px; }
+  .tl-line { position: relative; }
+  .tl-line::before { content:''; position:absolute; left:4px; top:14px; bottom:-14px; width:1px; background: var(--color-border-secondary); }
+  .tl-line-last::before { display: none; }
+  .tl-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .tl-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; margin-top: 3px; }
+  .tl-tag { font-size: 11px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 4px; padding: 1px 6px; color: var(--color-text-tertiary); margin-left: 6px; }
+  .agent-box { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); padding: 12px; margin-bottom: 10px; }
+  .agent-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .agent-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .code-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary); margin-top: 8px; overflow-x: auto; white-space: pre; }
+  .highlight { color: var(--color-text-info); }
+  .metric { text-align: center; padding: 12px 8px; }
+  .metric-num { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .metric-lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  hr.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 14px 0; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+</style>
+
+<div class="tabs">
+  <button class="tab active" onclick="show('overview')">Overview</button>
+  <button class="tab" onclick="show('stack')">Tech Stack</button>
+  <button class="tab" onclick="show('agents')">Agents</button>
+  <button class="tab" onclick="show('timeline')">24h Timeline</button>
+  <button class="tab" onclick="show('mvp')">MVP Scope</button>
+  <button class="tab" onclick="show('pitch')">Pitch Tips</button>
+</div>
+
+<div id="overview" class="section active">
+  <p class="section-head">What you're building</p>
+  <div class="grid3" style="margin-bottom:14px">
+    <div class="card metric"><div class="metric-num" style="color:var(--color-text-info)">4</div><div class="metric-lbl">Core Agents</div></div>
+    <div class="card metric"><div class="metric-num" style="color:var(--color-text-success)">90</div><div class="metric-lbl">Day Predictions</div></div>
+    <div class="card metric"><div class="metric-num" style="color:var(--color-text-warning)">24h</div><div class="metric-lbl">To Ship MVP</div></div>
+  </div>
+  <div class="card" style="margin-bottom:10px">
+    <div class="card-title">Core pipeline</div>
+    <div class="card-sub">GitHub/GitLab API → PyDriller (commit mining) → Radon (complexity scoring) → LangChain (multi-agent reasoning) → CEO-friendly report</div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">What it analyzes</div>
+      <div class="card-sub">Commit frequency, bug-fix density, cyclomatic complexity, test coverage trends, churn rate per file/module</div>
+    </div>
+    <div class="card">
+      <div class="card-title">What it outputs</div>
+      <div class="card-sub">Per-module health score, top-5 failure risk components, cost-of-inaction in eng-hours & $, 90-day risk forecast</div>
+    </div>
+  </div>
+</div>
+
+<div id="stack" class="section">
+  <p class="section-head">Complete tech stack</p>
+
+  <div class="agent-box">
+    <div class="agent-name">Data ingestion layer</div>
+    <div class="pill-row">
+      <span class="badge b-blue">PyGithub / python-gitlab</span>
+      <span class="badge b-blue">PyDriller</span>
+      <span class="badge b-blue">gitpython</span>
+    </div>
+    <div class="agent-desc" style="margin-top:8px">PyDriller is the star — it walks every commit, extracts diff stats, file churn, author info, added/removed lines. No need to clone manually. python-gitlab / PyGithub handle REST auth + webhook setup.</div>
+    <div class="code-block"><span class="highlight">from</span> pydriller <span class="highlight">import</span> Repository
+<span class="highlight">for</span> commit <span class="highlight">in</span> Repository(<span class="highlight">"."</span>, since=..., to=...).traverse_commits():
+    commit.modified_files  <span class="highlight"># list of changed files + metrics</span></div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">Code quality analysis</div>
+    <div class="pill-row">
+      <span class="badge b-amber">Radon</span>
+      <span class="badge b-amber">pylint / flake8</span>
+      <span class="badge b-amber">coverage.py</span>
+    </div>
+    <div class="agent-desc" style="margin-top:8px">Radon computes cyclomatic complexity (CC), Halstead metrics, and maintainability index per file. Run it on every snapshot to build a time-series of quality.</div>
+    <div class="code-block">radon cc src/ -a -s  <span class="highlight"># complexity grades per function</span>
+radon mi src/ -s     <span class="highlight"># maintainability index 0–100</span></div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">AI / orchestration layer</div>
+    <div class="pill-row">
+      <span class="badge b-green">LangChain</span>
+      <span class="badge b-green">LangGraph</span>
+      <span class="badge b-green">OpenAI GPT-4o / Claude API</span>
+    </div>
+    <div class="agent-desc" style="margin-top:8px">LangGraph gives you state-machine-style multi-agent flows. Each specialist agent (see Agents tab) is a LangGraph node. Use tool-calling to pass structured JSON between nodes.</div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">Backend API</div>
+    <div class="pill-row">
+      <span class="badge b-blue">FastAPI</span>
+      <span class="badge b-blue">SQLite / PostgreSQL</span>
+      <span class="badge b-blue">Celery + Redis (optional)</span>
+    </div>
+    <div class="agent-desc" style="margin-top:8px">FastAPI serves the dashboard + triggers analysis jobs. SQLite is fine for hackathon. Store metrics as time-series rows per (repo, file_path, commit_hash).</div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">Frontend</div>
+    <div class="pill-row">
+      <span class="badge b-gray">React + Vite</span>
+      <span class="badge b-gray">Recharts / Chart.js</span>
+      <span class="badge b-gray">shadcn/ui</span>
+      <span class="badge b-gray">Tailwind CSS</span>
+    </div>
+    <div class="agent-desc" style="margin-top:8px">Use shadcn/ui for speed. Key screens: repo connection wizard, module health heatmap, risk leaderboard, CEO report preview (PDF export).</div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">Report generation</div>
+    <div class="pill-row">
+      <span class="badge b-amber">WeasyPrint</span>
+      <span class="badge b-amber">Jinja2 HTML templates</span>
+      <span class="badge b-amber">Matplotlib (charts)</span>
+    </div>
+    <div class="agent-desc" style="margin-top:8px">Render a CEO-friendly HTML report, convert to PDF with WeasyPrint. Include risk table, cost estimate, recommended action order.</div>
+  </div>
+</div>
+
+<div id="agents" class="section">
+  <p class="section-head">Multi-agent architecture (LangGraph nodes)</p>
+
+  <div class="agent-box">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span class="badge b-blue">Agent 1</span>
+      <div class="agent-name" style="margin:0">Repo Miner</div>
+    </div>
+    <div class="agent-desc">Uses PyDriller to extract: commit history (last 90 days), files changed per commit, bug-fix commits (detect via commit message regex: fix/bug/patch/issue), test file ratio, deployment-tagged commits. Outputs structured JSON per module.</div>
+  </div>
+
+  <div class="agent-box">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span class="badge b-amber">Agent 2</span>
+      <div class="agent-name" style="margin:0">Health Scorer</div>
+    </div>
+    <div class="agent-desc">Takes mined data, runs Radon complexity on current HEAD, computes a weighted health score per module: churn×0.3 + bug_density×0.3 + complexity×0.25 + coverage_drop×0.15. Outputs score 0–100 + risk tier (green/yellow/red).</div>
+  </div>
+
+  <div class="agent-box">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span class="badge b-green">Agent 3</span>
+      <div class="agent-name" style="margin:0">Risk Predictor</div>
+    </div>
+    <div class="agent-desc">LLM + trend analysis. Takes time-series of health scores, finds accelerating degradation patterns, predicts which modules will hit "critical" in next 90 days. Can use simple linear regression + LLM interpretation, or a pre-trained sklearn model (gradient boosting on commit features).</div>
+  </div>
+
+  <div class="agent-box">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span class="badge b-red">Agent 4</span>
+      <div class="agent-name" style="margin:0">Report Writer</div>
+    </div>
+    <div class="agent-desc">LLM agent (GPT-4o / Claude). System prompt: "You are a CTO writing a 1-page business report for a non-technical CEO." Input: risk tiers, module names, estimated eng-hours to fix, severity. Output: cost-of-inaction ($), recommended priority order, plain-English narrative. No jargon.</div>
+  </div>
+
+  <hr class="divider">
+  <div class="card-title" style="margin-bottom:8px">LangGraph flow</div>
+  <div class="code-block">user_input (repo URL + token)
+  → <span class="highlight">repo_miner_node</span>   → commit_metrics JSON
+  → <span class="highlight">health_scorer_node</span> → module_scores JSON
+  → <span class="highlight">risk_predictor_node</span>→ risk_predictions JSON
+  → <span class="highlight">report_writer_node</span> → CEO report (markdown → PDF)</div>
+</div>
+
+<div id="timeline" class="section">
+  <p class="section-head">24-hour sprint plan</p>
+
+  <div class="timeline-item">
+    <div class="tl-dot tl-line" style="background:var(--color-text-info)"></div>
+    <div><div class="tl-title">Hour 0–2 — Setup & data pipeline <span class="tl-tag">H0–H2</span></div><div class="tl-desc">Create FastAPI skeleton, connect PyDriller to a test repo (use your own GitHub repo). Store raw commit metrics in SQLite. Get Radon running on HEAD. Verify data shapes.</div></div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-dot tl-line" style="background:var(--color-text-info)"></div>
+    <div><div class="tl-title">Hour 2–5 — Health scorer agent <span class="tl-tag">H2–H5</span></div><div class="tl-desc">Write the scoring formula. Tune weights on test repo until scores feel intuitive. Build the /api/health endpoint that returns module scores. Add GitHub OAuth (use GitHub App or personal token for hackathon).</div></div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-dot tl-line" style="background:var(--color-text-warning)"></div>
+    <div><div class="tl-title">Hour 5–9 — LangGraph multi-agent wiring <span class="tl-tag">H5–H9</span></div><div class="tl-desc">Set up LangGraph StateGraph. Wire Repo Miner → Health Scorer → Risk Predictor nodes. Use GPT-4o for Risk Predictor (simple prompt + sklearn linear regression as tool). Test end-to-end with a public repo.</div></div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-dot tl-line" style="background:var(--color-text-warning)"></div>
+    <div><div class="tl-title">Hour 9–13 — CEO report writer + PDF export <span class="tl-tag">H9–H13</span></div><div class="tl-desc">Craft the Report Writer agent system prompt. Build Jinja2 HTML template for the report (cost table, risk heatmap, priority list). Wire WeasyPrint for PDF. Add /api/report endpoint. Sleep here if needed.</div></div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-dot tl-line" style="background:var(--color-text-success)"></div>
+    <div><div class="tl-title">Hour 13–18 — React frontend <span class="tl-tag">H13–H18</span></div><div class="tl-desc">Vite + shadcn/ui. Build: (1) repo connect screen, (2) module health heatmap (Recharts treemap), (3) risk leaderboard table, (4) Download Report button. Connect to FastAPI. Keep it simple.</div></div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-dot tl-line" style="background:var(--color-text-success)"></div>
+    <div><div class="tl-title">Hour 18–21 — Polish & demo data <span class="tl-tag">H18–H21</span></div><div class="tl-desc">Pre-analyze 2–3 public repos (e.g. a well-known OSS project). Cache results so demo doesn't depend on live API. Fix UI bugs. Add loading states. Prep your "wow moment" — a module going from green to red with a cost estimate.</div></div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-dot tl-line-last" style="background:var(--color-text-danger)"></div>
+    <div><div class="tl-title">Hour 21–24 — Presentation prep + buffer <span class="tl-tag">H21–H24</span></div><div class="tl-desc">Record a 2-min demo video as fallback. Write the pitch. Rehearse the CEO report reveal as your climax moment. Deploy to Railway / Render or just run locally with ngrok.</div></div>
+  </div>
+</div>
+
+<div id="mvp" class="section">
+  <p class="section-head">MVP scope — what to cut, what to keep</p>
+
+  <div class="card" style="margin-bottom:10px;border-color:var(--color-border-success)">
+    <div class="card-title" style="color:var(--color-text-success)">Must-have (ship these)</div>
+    <div class="pill-row">
+      <span class="badge b-green">GitHub repo connect via PAT token</span>
+      <span class="badge b-green">Per-file health score dashboard</span>
+      <span class="badge b-green">Top-5 riskiest modules list</span>
+      <span class="badge b-green">1-page CEO PDF report</span>
+      <span class="badge b-green">Cost-of-inaction estimate</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:10px;border-color:var(--color-border-warning)">
+    <div class="card-title" style="color:var(--color-text-warning)">Nice-to-have (if time permits)</div>
+    <div class="pill-row">
+      <span class="badge b-amber">GitLab support</span>
+      <span class="badge b-amber">GitHub OAuth flow</span>
+      <span class="badge b-amber">Email report delivery</span>
+      <span class="badge b-amber">Historical trend chart</span>
+      <span class="badge b-amber">Slack webhook alert</span>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--color-border-danger)">
+    <div class="card-title" style="color:var(--color-text-danger)">Cut completely (post-hackathon)</div>
+    <div class="pill-row">
+      <span class="badge b-red">Multi-user auth</span>
+      <span class="badge b-red">Real-time webhook listener</span>
+      <span class="badge b-red">Custom scoring weights UI</span>
+      <span class="badge b-red">CI/CD integration</span>
+      <span class="badge b-red">Fine-tuned model</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="card-title" style="margin-bottom:8px">Cost-of-inaction formula (keep it simple)</div>
+  <div class="code-block">avg_bug_fix_hours = 8  <span class="highlight"># rough estimate per incident</span>
+eng_hourly_rate  = 75  <span class="highlight"># USD</span>
+predicted_failures = risk_score * incident_probability_90d
+cost = predicted_failures * avg_bug_fix_hours * eng_hourly_rate</div>
+</div>
+
+<div id="pitch" class="section">
+  <p class="section-head">Winning the pitch</p>
+
+  <div class="agent-box">
+    <div class="agent-name">The "CEO moment" — your demo climax</div>
+    <div class="agent-desc">Show a real repo (e.g. a popular OSS project). Click "Analyze". After 30s, show a red module. Click "Generate CEO Report". Reveal a PDF that says: "Payment module has a 78% chance of causing an outage in the next 90 days. Cost of inaction: $47,000. Recommended fix: 2 engineers, 3 weeks." Judges will feel this.</div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">Differentiation angles to highlight</div>
+    <div class="agent-desc">
+      1. Non-technical stakeholder output (not just metrics, but $$$)<br>
+      2. Proactive vs reactive — predicts failure before it happens<br>
+      3. Multi-agent reasoning, not just a dashboard<br>
+      4. Works on any public GitHub repo in under 60 seconds
+    </div>
+  </div>
+
+  <div class="agent-box">
+    <div class="agent-name">3-sentence pitch</div>
+    <div class="agent-desc">"Engineering teams generate massive signals — commits, bug fixes, complexity scores — but no one translates that into business risk for the CEO. Our platform connects to any GitHub repo, runs a multi-agent AI analysis, and delivers a boardroom-ready report showing exactly which parts of your codebase are about to fail and what it will cost you if you ignore them. We turn git history into a CFO-readable balance sheet of technical debt."</div>
+  </div>
+
+  <div class="grid2" style="margin-top:12px">
+    <div class="card">
+      <div class="card-title">Demo repos to pre-analyze</div>
+      <div class="card-sub">• facebook/react (large, complex)<br>• django/django (long history)<br>• Your own project (most authentic)</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Likely judge questions</div>
+      <div class="card-sub">• "How accurate are predictions?" → "Validated on historical incidents in OSS"<br>• "Why not just use SonarQube?" → "We translate to business impact, not dev metrics"</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>

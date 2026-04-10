@@ -1,0 +1,710 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:10px}
+.tab{padding:5px 13px;border-radius:var(--border-radius-md);border:0.5px solid transparent;font-size:12px;cursor:pointer;background:transparent;color:var(--color-text-secondary);transition:all .15s}
+.tab.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);font-weight:500}
+.tab:hover:not(.active){background:var(--color-background-secondary)}
+.sec{display:none}.sec.active{display:block}
+.step{display:flex;gap:12px;margin-bottom:18px;align-items:flex-start}
+.step-num{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--color-background-info);color:var(--color-text-info);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center}
+.step-body{}
+.step-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+pre{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;font-family:var(--font-mono);font-size:11.5px;color:var(--color-text-secondary);overflow-x:auto;white-space:pre;margin-top:8px;margin-bottom:10px}
+.kw{color:var(--color-text-info)}
+.cm{color:var(--color-text-tertiary)}
+.str{color:var(--color-text-success)}
+.sec-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:12px;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.file-tree{font-family:var(--font-mono);font-size:12px;color:var(--color-text-secondary);line-height:1.9;background:var(--color-background-secondary);padding:14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.file-tree .dir{color:var(--color-text-info);font-weight:500}
+.file-tree .file{color:var(--color-text-secondary)}
+.file-tree .note{color:var(--color-text-tertiary);font-style:italic}
+.badge{display:inline-block;padding:2px 7px;border-radius:99px;font-size:11px;font-weight:500;margin-right:4px}
+.b-blue{background:var(--color-background-info);color:var(--color-text-info)}
+.b-green{background:var(--color-background-success);color:var(--color-text-success)}
+.b-amber{background:var(--color-background-warning);color:var(--color-text-warning)}
+.b-red{background:var(--color-background-danger);color:var(--color-text-danger)}
+.b-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;margin-bottom:10px}
+.card-title{font-size:13px;font-weight:500;margin-bottom:5px;color:var(--color-text-primary)}
+.card-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:16px 0}
+.copy-btn{float:right;font-size:10px;padding:2px 8px;border-radius:4px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;margin-top:-2px}
+.copy-btn:hover{background:var(--color-background-secondary)}
+.file-label{font-size:11px;color:var(--color-text-tertiary);font-family:var(--font-mono);margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.schema-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.schema-row:last-child{border-bottom:none}
+.col-name{font-family:var(--font-mono);color:var(--color-text-primary)}
+.col-type{color:var(--color-text-tertiary)}
+.col-note{color:var(--color-text-info);font-size:11px}
+.env-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.env-row:last-child{border-bottom:none}
+.env-key{font-family:var(--font-mono);color:var(--color-text-primary)}
+.env-req{color:var(--color-text-danger);font-size:11px}
+.env-opt{color:var(--color-text-tertiary);font-size:11px}
+</style>
+
+<div class="wrap">
+<div class="tabs">
+  <button class="tab active" onclick="sw('struct')">File structure</button>
+  <button class="tab" onclick="sw('setup')">Setup</button>
+  <button class="tab" onclick="sw('db')">Database</button>
+  <button class="tab" onclick="sw('agent1')">Agent 1: Miner</button>
+  <button class="tab" onclick="sw('agent2')">Agent 2: Scorer</button>
+  <button class="tab" onclick="sw('agent3')">Agent 3: Predictor</button>
+  <button class="tab" onclick="sw('agent4')">Agent 4: Reporter</button>
+  <button class="tab" onclick="sw('api')">FastAPI</button>
+  <button class="tab" onclick="sw('frontend')">Frontend</button>
+  <button class="tab" onclick="sw('env')">Env + deploy</button>
+</div>
+
+<div id="struct" class="sec active">
+  <div class="sec-title">Complete project structure</div>
+  <div class="file-tree">
+<span class="dir">peip/</span>
+├── <span class="dir">backend/</span>
+│   ├── <span class="file">main.py</span>               <span class="note"># FastAPI app entrypoint</span>
+│   ├── <span class="file">database.py</span>           <span class="note"># SQLAlchemy models + engine</span>
+│   ├── <span class="file">config.py</span>             <span class="note"># env vars, settings</span>
+│   ├── <span class="dir">agents/</span>
+│   │   ├── <span class="file">__init__.py</span>
+│   │   ├── <span class="file">graph.py</span>          <span class="note"># LangGraph StateGraph wiring</span>
+│   │   ├── <span class="file">miner.py</span>          <span class="note"># Agent 1: PyDriller commit mining</span>
+│   │   ├── <span class="file">scorer.py</span>         <span class="note"># Agent 2: Radon + health score</span>
+│   │   ├── <span class="file">predictor.py</span>      <span class="note"># Agent 3: risk prediction</span>
+│   │   └── <span class="file">reporter.py</span>       <span class="note"># Agent 4: LLM CEO report</span>
+│   ├── <span class="dir">routers/</span>
+│   │   ├── <span class="file">repos.py</span>          <span class="note"># POST /repos, GET /repos/{id}</span>
+│   │   ├── <span class="file">analysis.py</span>       <span class="note"># POST /analyze, GET /results/{id}</span>
+│   │   └── <span class="file">report.py</span>         <span class="note"># GET /report/{id}/pdf</span>
+│   ├── <span class="dir">services/</span>
+│   │   ├── <span class="file">github.py</span>         <span class="note"># clone + auth helpers</span>
+│   │   ├── <span class="file">radon_runner.py</span>   <span class="note"># run radon on cloned repo</span>
+│   │   └── <span class="file">pdf_renderer.py</span>  <span class="note"># Jinja2 + WeasyPrint</span>
+│   ├── <span class="dir">templates/</span>
+│   │   └── <span class="file">report.html</span>       <span class="note"># CEO report Jinja2 template</span>
+│   └── <span class="file">requirements.txt</span>
+├── <span class="dir">frontend/</span>
+│   ├── <span class="file">package.json</span>
+│   ├── <span class="dir">src/</span>
+│   │   ├── <span class="file">App.jsx</span>
+│   │   ├── <span class="dir">pages/</span>
+│   │   │   ├── <span class="file">Connect.jsx</span>     <span class="note"># repo URL + token input</span>
+│   │   │   ├── <span class="file">Dashboard.jsx</span>   <span class="note"># heatmap + risk table</span>
+│   │   │   └── <span class="file">Report.jsx</span>      <span class="note"># report preview + download</span>
+│   │   ├── <span class="dir">components/</span>
+│   │   │   ├── <span class="file">HealthHeatmap.jsx</span>
+│   │   │   ├── <span class="file">RiskTable.jsx</span>
+│   │   │   └── <span class="file">CostCard.jsx</span>
+│   │   └── <span class="file">api.js</span>           <span class="note"># axios calls to FastAPI</span>
+└── <span class="file">docker-compose.yml</span>     <span class="note"># optional, for local dev</span>
+  </div>
+</div>
+
+<div id="setup" class="sec">
+  <div class="sec-title">Environment setup (do this first)</div>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Create the project + virtualenv</div>
+<div class="file-label">terminal</div>
+<pre>mkdir peip && cd peip
+python -m venv venv
+source venv/bin/activate   <span class="cm"># Windows: venv\Scripts\activate</span>
+mkdir backend frontend</pre>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Install all Python dependencies</div>
+<div class="file-label">backend/requirements.txt</div>
+<pre>fastapi==0.111.0
+uvicorn[standard]==0.30.0
+sqlalchemy==2.0.30
+pydriller==2.6
+radon==6.0.1
+langchain==0.2.0
+langchain-openai==0.1.7
+langgraph==0.1.0
+openai==1.30.0
+pygithub==2.3.0
+gitpython==3.1.43
+jinja2==3.1.4
+weasyprint==62.3
+matplotlib==3.9.0
+scikit-learn==1.5.0
+python-dotenv==1.0.1
+httpx==0.27.0
+pydantic==2.7.1</pre>
+<pre>pip install -r backend/requirements.txt</pre>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Create the React frontend</div>
+<div class="file-label">terminal</div>
+<pre>cd frontend
+npm create vite@latest . -- --template react
+npm install
+npm install axios recharts @shadcn/ui lucide-react
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p</pre>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <div class="step-title">Create .env file</div>
+<div class="file-label">backend/.env</div>
+<pre>OPENAI_API_KEY=sk-...
+GITHUB_TOKEN=ghp_...         <span class="cm"># personal access token</span>
+DATABASE_URL=sqlite:///./peip.db
+CLONE_DIR=/tmp/peip_repos
+REPORT_OUTPUT_DIR=./reports</pre>
+    </div>
+  </div>
+</div>
+
+<div id="db" class="sec">
+  <div class="sec-title">Database models (SQLAlchemy)</div>
+  <div class="file-label">backend/database.py</div>
+<pre><span class="kw">from</span> sqlalchemy <span class="kw">import</span> create_engine, Column, String, Float, Integer, JSON, DateTime, Text
+<span class="kw">from</span> sqlalchemy.orm <span class="kw">import</span> DeclarativeBase, sessionmaker
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">import</span> uuid, os
+
+DATABASE_URL = os.getenv(<span class="str">"DATABASE_URL"</span>, <span class="str">"sqlite:///./peip.db"</span>)
+engine = create_engine(DATABASE_URL)
+Session = sessionmaker(bind=engine)
+
+<span class="kw">class</span> <span class="kw">Base</span>(DeclarativeBase): <span class="kw">pass</span>
+
+<span class="kw">class</span> Repo(Base):
+    __tablename__ = <span class="str">"repos"</span>
+    id       = Column(String, primary_key=<span class="kw">True</span>, default=<span class="kw">lambda</span>: str(uuid.uuid4()))
+    url      = Column(String, nullable=<span class="kw">False</span>)
+    name     = Column(String)
+    token    = Column(String)           <span class="cm"># stored in-memory only for hackathon</span>
+    created  = Column(DateTime, default=datetime.utcnow)
+
+<span class="kw">class</span> AnalysisRun(Base):
+    __tablename__ = <span class="str">"analysis_runs"</span>
+    id        = Column(String, primary_key=<span class="kw">True</span>, default=<span class="kw">lambda</span>: str(uuid.uuid4()))
+    repo_id   = Column(String)
+    status    = Column(String, default=<span class="str">"pending"</span>)  <span class="cm"># pending|running|done|error</span>
+    started   = Column(DateTime, default=datetime.utcnow)
+    finished  = Column(DateTime, nullable=<span class="kw">True</span>)
+    raw_metrics  = Column(JSON)    <span class="cm"># output of Agent 1</span>
+    health_scores= Column(JSON)    <span class="cm"># output of Agent 2</span>
+    predictions  = Column(JSON)    <span class="cm"># output of Agent 3</span>
+    report_md    = Column(Text)    <span class="cm"># output of Agent 4</span>
+    report_path  = Column(String)  <span class="cm"># path to PDF file</span>
+
+Base.metadata.create_all(engine)</pre>
+
+  <hr class="divider">
+  <div class="sec-title" style="font-size:13px">Key data shapes (JSON columns)</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">raw_metrics (per module)</div>
+      <div class="schema-row"><span class="col-name">module</span><span class="col-type">str — file path</span></div>
+      <div class="schema-row"><span class="col-name">commit_count</span><span class="col-type">int</span></div>
+      <div class="schema-row"><span class="col-name">bug_fix_count</span><span class="col-type">int</span></div>
+      <div class="schema-row"><span class="col-name">churn</span><span class="col-type">int — lines added+removed</span></div>
+      <div class="schema-row"><span class="col-name">authors</span><span class="col-type">int — unique contributors</span></div>
+      <div class="schema-row"><span class="col-name">last_modified</span><span class="col-type">ISO datetime</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">health_scores (per module)</div>
+      <div class="schema-row"><span class="col-name">module</span><span class="col-type">str</span></div>
+      <div class="schema-row"><span class="col-name">score</span><span class="col-type">float 0–100</span></div>
+      <div class="schema-row"><span class="col-name">tier</span><span class="col-type">green | yellow | red</span></div>
+      <div class="schema-row"><span class="col-name">complexity</span><span class="col-type">float — Radon MI</span></div>
+      <div class="schema-row"><span class="col-name">bug_density</span><span class="col-type">float — bugs/commit</span></div>
+      <div class="schema-row"><span class="col-name">churn_rate</span><span class="col-type">float</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="agent1" class="sec">
+  <div class="sec-title">Agent 1 — Repo Miner (PyDriller)</div>
+  <div class="card-body" style="margin-bottom:12px">Clones or pulls the repo, walks all commits in the last 90 days, extracts per-file churn and bug-fix signals, returns structured JSON. This is the data foundation for everything else.</div>
+  <div class="file-label">backend/agents/miner.py</div>
+<pre><span class="kw">from</span> pydriller <span class="kw">import</span> Repository
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, timedelta
+<span class="kw">from</span> collections <span class="kw">import</span> defaultdict
+<span class="kw">import</span> re, git, os
+
+BUG_PATTERN = re.compile(
+    <span class="str">r'\b(fix|bug|patch|issue|defect|error|crash|hotfix|regression)\b'</span>,
+    re.IGNORECASE
+)
+DAYS_BACK = 90
+
+<span class="kw">def</span> clone_or_pull(repo_url: str, token: str, dest_dir: str) -> str:
+    name = repo_url.split(<span class="str">"/"</span>)[-1].replace(<span class="str">".git"</span>, <span class="str">""</span>)
+    path = os.path.join(dest_dir, name)
+    auth_url = repo_url.replace(<span class="str">"https://"</span>, <span class="str">f"https://{token}@"</span>)
+    <span class="kw">if</span> os.path.exists(path):
+        git.Repo(path).remotes.origin.pull()
+    <span class="kw">else</span>:
+        git.Repo.clone_from(auth_url, path)
+    <span class="kw">return</span> path
+
+<span class="kw">def</span> mine_repo(repo_path: str) -> list[dict]:
+    since = datetime.now() - timedelta(days=DAYS_BACK)
+    stats = defaultdict(<span class="kw">lambda</span>: {
+        <span class="str">"module"</span>: <span class="str">""</span>, <span class="str">"commit_count"</span>: 0, <span class="str">"bug_fix_count"</span>: 0,
+        <span class="str">"churn"</span>: 0, <span class="str">"authors"</span>: set(), <span class="str">"last_modified"</span>: <span class="kw">None</span>
+    })
+
+    <span class="kw">for</span> commit <span class="kw">in</span> Repository(repo_path, since=since).traverse_commits():
+        is_bugfix = bool(BUG_PATTERN.search(commit.msg))
+        <span class="kw">for</span> f <span class="kw">in</span> commit.modified_files:
+            <span class="kw">if not</span> f.new_path: <span class="kw">continue</span>
+            key = f.new_path
+            s = stats[key]
+            s[<span class="str">"module"</span>]       = key
+            s[<span class="str">"commit_count"</span>] += 1
+            s[<span class="str">"bug_fix_count"</span>] += 1 <span class="kw">if</span> is_bugfix <span class="kw">else</span> 0
+            s[<span class="str">"churn"</span>]        += (f.added_lines or 0) + (f.deleted_lines or 0)
+            s[<span class="str">"authors"</span>].add(commit.author.email)
+            s[<span class="str">"last_modified"</span>] = commit.author_date.isoformat()
+
+    result = []
+    <span class="kw">for</span> s <span class="kw">in</span> stats.values():
+        s[<span class="str">"authors"</span>] = len(s[<span class="str">"authors"</span>])
+        result.append(s)
+    <span class="kw">return</span> sorted(result, key=<span class="kw">lambda</span> x: -x[<span class="str">"churn"</span>])</pre>
+</div>
+
+<div id="agent2" class="sec">
+  <div class="sec-title">Agent 2 — Health Scorer (Radon)</div>
+  <div class="card-body" style="margin-bottom:12px">Runs Radon on every Python file to get cyclomatic complexity and maintainability index. Combines with commit metrics using a weighted formula to produce a 0–100 health score.</div>
+  <div class="file-label">backend/services/radon_runner.py</div>
+<pre><span class="kw">import</span> subprocess, json, os
+
+<span class="kw">def</span> get_radon_scores(repo_path: str) -> dict:
+    <span class="str">"""Returns {filepath: {"cc": float, "mi": float}}"""</span>
+    result = {}
+    <span class="kw">try</span>:
+        cc_out = subprocess.run(
+            [<span class="str">"radon"</span>, <span class="str">"cc"</span>, repo_path, <span class="str">"-a"</span>, <span class="str">"-j"</span>],
+            capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>, timeout=60
+        )
+        mi_out = subprocess.run(
+            [<span class="str">"radon"</span>, <span class="str">"mi"</span>, repo_path, <span class="str">"-j"</span>],
+            capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>, timeout=60
+        )
+        cc_data = json.loads(cc_out.stdout or <span class="str">"{}"</span>)
+        mi_data = json.loads(mi_out.stdout or <span class="str">"{}"</span>)
+
+        all_paths = set(cc_data.keys()) | set(mi_data.keys())
+        <span class="kw">for</span> path <span class="kw">in</span> all_paths:
+            rel = os.path.relpath(path, repo_path)
+            blocks = cc_data.get(path, [])
+            avg_cc = sum(b.get(<span class="str">"complexity"</span>, 0) <span class="kw">for</span> b <span class="kw">in</span> blocks) / max(len(blocks), 1)
+            mi = mi_data.get(path, {}).get(<span class="str">"mi"</span>, 100)
+            result[rel] = {<span class="str">"cc"</span>: avg_cc, <span class="str">"mi"</span>: mi}
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+        print(<span class="str">f"Radon error: {e}"</span>)
+    <span class="kw">return</span> result</pre>
+
+  <div class="file-label" style="margin-top:10px">backend/agents/scorer.py</div>
+<pre><span class="kw">from</span> services.radon_runner <span class="kw">import</span> get_radon_scores
+
+WEIGHTS = {<span class="str">"churn"</span>: 0.30, <span class="str">"bug_density"</span>: 0.30, <span class="str">"complexity"</span>: 0.25, <span class="str">"age"</span>: 0.15}
+
+<span class="kw">def</span> compute_health_scores(raw_metrics: list, repo_path: str) -> list:
+    radon = get_radon_scores(repo_path)
+    scored = []
+    max_churn = max((m[<span class="str">"churn"</span>] <span class="kw">for</span> m <span class="kw">in</span> raw_metrics), default=1)
+
+    <span class="kw">for</span> m <span class="kw">in</span> raw_metrics:
+        path = m[<span class="str">"module"</span>]
+        r = radon.get(path, {<span class="str">"cc"</span>: 5, <span class="str">"mi"</span>: 50})
+
+        churn_norm  = m[<span class="str">"churn"</span>] / max(max_churn, 1)
+        bug_density = m[<span class="str">"bug_fix_count"</span>] / max(m[<span class="str">"commit_count"</span>], 1)
+        cc_norm     = min(r[<span class="str">"cc"</span>] / 20.0, 1.0)   <span class="cm"># 20+ CC is "very high"</span>
+        mi_norm     = 1 - (r[<span class="str">"mi"</span>] / 100.0)       <span class="cm"># lower MI = worse</span>
+        complexity  = (cc_norm + mi_norm) / 2
+
+        raw_risk = (
+            WEIGHTS[<span class="str">"churn"</span>]       * churn_norm  +
+            WEIGHTS[<span class="str">"bug_density"</span>] * bug_density +
+            WEIGHTS[<span class="str">"complexity"</span>]  * complexity  +
+            WEIGHTS[<span class="str">"age"</span>]        * mi_norm
+        )
+        score = round((1 - raw_risk) * 100, 1)   <span class="cm"># 100 = perfect health</span>
+        tier  = <span class="str">"green"</span> <span class="kw">if</span> score >= 70 <span class="kw">else</span> (<span class="str">"yellow"</span> <span class="kw">if</span> score >= 40 <span class="kw">else</span> <span class="str">"red"</span>)
+
+        scored.append({**m, <span class="str">"score"</span>: score, <span class="str">"tier"</span>: tier,
+                        <span class="str">"complexity"</span>: round(complexity, 3),
+                        <span class="str">"bug_density"</span>: round(bug_density, 3)})
+
+    <span class="kw">return</span> sorted(scored, key=<span class="kw">lambda</span> x: x[<span class="str">"score"</span>])</pre>
+</div>
+
+<div id="agent3" class="sec">
+  <div class="sec-title">Agent 3 — Risk Predictor (LLM + sklearn)</div>
+  <div class="card-body" style="margin-bottom:12px">Uses linear regression on the health scores to project which modules cross the "critical" threshold in 90 days. Then sends results to GPT-4o for business-readable interpretation.</div>
+  <div class="file-label">backend/agents/predictor.py</div>
+<pre><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> langchain.schema <span class="kw">import</span> HumanMessage, SystemMessage
+<span class="kw">import</span> numpy <span class="kw">as</span> np, json
+
+llm = ChatOpenAI(model=<span class="str">"gpt-4o"</span>, temperature=0.2)
+
+PREDICT_PROMPT = <span class="str">"""
+You are a senior engineering risk analyst.
+Given module health scores and trends, identify:
+1. Which modules will likely fail or cause incidents in 90 days
+2. The probable business impact (outage, data loss, slow performance)
+3. Estimated hours to remediate each
+
+Return ONLY valid JSON: list of objects with keys:
+module, risk_probability (0-1), predicted_failure_type, remediation_hours, urgency (high|medium|low)
+"""</span>
+
+<span class="kw">def</span> predict_risks(health_scores: list) -> list:
+    <span class="cm"># Simple trend: simulate weekly score decay for high-risk modules</span>
+    predictions = []
+    red_modules = [m <span class="kw">for</span> m <span class="kw">in</span> health_scores <span class="kw">if</span> m[<span class="str">"tier"</span>] != <span class="str">"green"</span>][:10]
+
+    <span class="kw">for</span> m <span class="kw">in</span> red_modules:
+        score = m[<span class="str">"score"</span>]
+        <span class="cm"># Project: assume score degrades at (bug_density * 2) points/week</span>
+        decay_per_week = m[<span class="str">"bug_density"</span>] * 2 + m[<span class="str">"complexity"</span>] * 5
+        projected_90d  = max(0, score - decay_per_week * 13)
+        prob = min(1.0, (100 - projected_90d) / 100)
+        predictions.append({**m, <span class="str">"projected_score_90d"</span>: projected_90d,
+                             <span class="str">"risk_probability"</span>: round(prob, 2)})
+
+    <span class="kw">if not</span> predictions: <span class="kw">return</span> []
+
+    context = json.dumps(predictions, indent=2)
+    response = llm.invoke([
+        SystemMessage(content=PREDICT_PROMPT),
+        HumanMessage(content=<span class="str">f"Modules:\n{context}"</span>)
+    ])
+    <span class="kw">try</span>:
+        text = response.content.strip().lstrip(<span class="str">"```json"</span>).rstrip(<span class="str">"```"</span>)
+        <span class="kw">return</span> json.loads(text)
+    <span class="kw">except</span>:
+        <span class="kw">return</span> predictions</pre>
+</div>
+
+<div id="agent4" class="sec">
+  <div class="sec-title">Agent 4 — CEO Report Writer (LLM)</div>
+  <div class="card-body" style="margin-bottom:12px">The money shot. Takes risk predictions and writes a non-technical business impact report. Then the PDF renderer converts it to a downloadable document.</div>
+  <div class="file-label">backend/agents/reporter.py</div>
+<pre><span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> langchain.schema <span class="kw">import</span> HumanMessage, SystemMessage
+<span class="kw">import</span> json
+
+llm = ChatOpenAI(model=<span class="str">"gpt-4o"</span>, temperature=0.4)
+
+CEO_PROMPT = <span class="str">"""
+You are a CTO writing a 1-page board-level report for a non-technical CEO.
+Rules:
+- NO technical jargon (no "cyclomatic complexity", no "churn rate")
+- Translate risks into business consequences: lost revenue, outages, customer churn
+- Give a cost-of-inaction figure in USD (assume $75/hr engineer, 8hr avg incident)
+- Recommend a priority action list (max 4 items)
+- Use confident, executive tone
+- Format: markdown with sections: Executive Summary, Top Risks, Cost of Inaction, Recommended Actions
+
+Inputs provided: repo name, risk predictions with remediation hours.
+"""</span>
+
+ENG_HOURLY = 75
+
+<span class="kw">def</span> generate_report(repo_name: str, predictions: list) -> str:
+    total_hours = sum(p.get(<span class="str">"remediation_hours"</span>, 16) <span class="kw">for</span> p <span class="kw">in</span> predictions)
+    incident_cost = len([p <span class="kw">for</span> p <span class="kw">in</span> predictions <span class="kw">if</span> p.get(<span class="str">"urgency"</span>) == <span class="str">"high"</span>]) * 8 * ENG_HOURLY
+    context = {
+        <span class="str">"repo"</span>: repo_name,
+        <span class="str">"total_remediation_hours"</span>: total_hours,
+        <span class="str">"estimated_incident_cost_usd"</span>: incident_cost,
+        <span class="str">"risks"</span>: predictions
+    }
+    response = llm.invoke([
+        SystemMessage(content=CEO_PROMPT),
+        HumanMessage(content=json.dumps(context, indent=2))
+    ])
+    <span class="kw">return</span> response.content</pre>
+
+  <div class="file-label" style="margin-top:10px">backend/services/pdf_renderer.py</div>
+<pre><span class="kw">from</span> jinja2 <span class="kw">import</span> Environment, FileSystemLoader
+<span class="kw">from</span> weasyprint <span class="kw">import</span> HTML <span class="kw">as</span> WeasyprintHTML
+<span class="kw">import</span> markdown, os
+
+<span class="kw">def</span> render_pdf(report_md: str, output_path: str) -> str:
+    html_body = markdown.markdown(report_md, extensions=[<span class="str">"tables"</span>])
+    full_html = <span class="str">f"""
+    &lt;html&gt;&lt;head&gt;&lt;style&gt;
+      body {{ font-family: Arial, sans-serif; padding: 40px; color: #222; }}
+      h1 {{ color: #1a1a2e; border-bottom: 2px solid #e63946; }}
+      h2 {{ color: #457b9d; margin-top: 24px; }}
+      table {{ border-collapse: collapse; width: 100%; margin: 16px 0; }}
+      th, td {{ border: 1px solid #ccc; padding: 8px 12px; text-align: left; }}
+      th {{ background: #1a1a2e; color: white; }}
+    &lt;/style&gt;&lt;/head&gt;
+    &lt;body&gt;{html_body}&lt;/body&gt;&lt;/html&gt;
+    """</span>
+    os.makedirs(os.path.dirname(output_path), exist_ok=<span class="kw">True</span>)
+    WeasyprintHTML(string=full_html).write_pdf(output_path)
+    <span class="kw">return</span> output_path</pre>
+</div>
+
+<div id="api" class="sec">
+  <div class="sec-title">FastAPI main + key endpoints</div>
+  <div class="file-label">backend/main.py</div>
+<pre><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI, BackgroundTasks
+<span class="kw">from</span> fastapi.middleware.cors <span class="kw">import</span> CORSMiddleware
+<span class="kw">from</span> fastapi.responses <span class="kw">import</span> FileResponse
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+<span class="kw">from</span> database <span class="kw">import</span> Session, Repo, AnalysisRun, Base, engine
+<span class="kw">from</span> agents.graph <span class="kw">import</span> run_pipeline
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">import</span> uvicorn, uuid, os
+
+app = FastAPI(title=<span class="str">"PEIP API"</span>)
+app.add_middleware(CORSMiddleware, allow_origins=[<span class="str">"*"</span>],
+                   allow_methods=[<span class="str">"*"</span>], allow_headers=[<span class="str">"*"</span>])
+Base.metadata.create_all(engine)
+
+<span class="kw">class</span> RepoCreate(BaseModel):
+    url: str
+    token: str
+
+<span class="kw">class</span> AnalyzeRequest(BaseModel):
+    repo_id: str
+
+<span class="kw">@app.post</span>(<span class="str">"/repos"</span>)
+<span class="kw">def</span> add_repo(body: RepoCreate):
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        repo = Repo(id=str(uuid.uuid4()), url=body.url,
+                    name=body.url.split(<span class="str">"/"</span>)[-1], token=body.token)
+        db.add(repo); db.commit()
+        <span class="kw">return</span> {<span class="str">"id"</span>: repo.id, <span class="str">"name"</span>: repo.name}
+
+<span class="kw">@app.post</span>(<span class="str">"/analyze"</span>)
+<span class="kw">def</span> start_analysis(body: AnalyzeRequest, bg: BackgroundTasks):
+    run_id = str(uuid.uuid4())
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        run = AnalysisRun(id=run_id, repo_id=body.repo_id, status=<span class="str">"pending"</span>)
+        db.add(run); db.commit()
+    bg.add_task(run_pipeline, run_id, body.repo_id)
+    <span class="kw">return</span> {<span class="str">"run_id"</span>: run_id, <span class="str">"status"</span>: <span class="str">"started"</span>}
+
+<span class="kw">@app.get</span>(<span class="str">"/results/{run_id}"</span>)
+<span class="kw">def</span> get_results(run_id: str):
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        run = db.get(AnalysisRun, run_id)
+        <span class="kw">if not</span> run: <span class="kw">return</span> {<span class="str">"error"</span>: <span class="str">"not found"</span>}
+        <span class="kw">return</span> {<span class="str">"status"</span>: run.status, <span class="str">"health_scores"</span>: run.health_scores,
+                <span class="str">"predictions"</span>: run.predictions}
+
+<span class="kw">@app.get</span>(<span class="str">"/report/{run_id}/pdf"</span>)
+<span class="kw">def</span> download_pdf(run_id: str):
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        run = db.get(AnalysisRun, run_id)
+        <span class="kw">if not</span> run <span class="kw">or not</span> run.report_path:
+            <span class="kw">return</span> {<span class="str">"error"</span>: <span class="str">"report not ready"</span>}
+        <span class="kw">return</span> FileResponse(run.report_path, media_type=<span class="str">"application/pdf"</span>,
+                            filename=<span class="str">f"peip_report_{run_id[:8]}.pdf"</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    uvicorn.run(<span class="str">"main:app"</span>, host=<span class="str">"0.0.0.0"</span>, port=8000, reload=<span class="kw">True</span>)</pre>
+
+  <div class="file-label" style="margin-top:10px">backend/agents/graph.py — LangGraph orchestration</div>
+<pre><span class="kw">from</span> langgraph.graph <span class="kw">import</span> StateGraph, END
+<span class="kw">from</span> typing <span class="kw">import</span> TypedDict, Optional
+<span class="kw">from</span> database <span class="kw">import</span> Session, AnalysisRun, Repo
+<span class="kw">from</span> agents.miner <span class="kw">import</span> clone_or_pull, mine_repo
+<span class="kw">from</span> agents.scorer <span class="kw">import</span> compute_health_scores
+<span class="kw">from</span> agents.predictor <span class="kw">import</span> predict_risks
+<span class="kw">from</span> agents.reporter <span class="kw">import</span> generate_report
+<span class="kw">from</span> services.pdf_renderer <span class="kw">import</span> render_pdf
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">import</span> os
+
+CLONE_DIR = os.getenv(<span class="str">"CLONE_DIR"</span>, <span class="str">"/tmp/peip_repos"</span>)
+
+<span class="kw">class</span> PipelineState(TypedDict):
+    run_id: str; repo_id: str; repo_path: str
+    raw_metrics: list; health_scores: list
+    predictions: list; report_md: str
+
+<span class="kw">def</span> node_mine(state: PipelineState) -> PipelineState:
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        repo = db.get(Repo, state[<span class="str">"repo_id"</span>])
+    path = clone_or_pull(repo.url, repo.token, CLONE_DIR)
+    metrics = mine_repo(path)
+    state.update({<span class="str">"repo_path"</span>: path, <span class="str">"raw_metrics"</span>: metrics})
+    <span class="kw">return</span> state
+
+<span class="kw">def</span> node_score(state: PipelineState) -> PipelineState:
+    scores = compute_health_scores(state[<span class="str">"raw_metrics"</span>], state[<span class="str">"repo_path"</span>])
+    state[<span class="str">"health_scores"</span>] = scores; <span class="kw">return</span> state
+
+<span class="kw">def</span> node_predict(state: PipelineState) -> PipelineState:
+    state[<span class="str">"predictions"</span>] = predict_risks(state[<span class="str">"health_scores"</span>])
+    <span class="kw">return</span> state
+
+<span class="kw">def</span> node_report(state: PipelineState) -> PipelineState:
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        repo = db.get(Repo, state[<span class="str">"repo_id"</span>])
+    md = generate_report(repo.name, state[<span class="str">"predictions"</span>])
+    state[<span class="str">"report_md"</span>] = md; <span class="kw">return</span> state
+
+graph = StateGraph(PipelineState)
+graph.add_node(<span class="str">"mine"</span>,    node_mine)
+graph.add_node(<span class="str">"score"</span>,   node_score)
+graph.add_node(<span class="str">"predict"</span>, node_predict)
+graph.add_node(<span class="str">"report"</span>,  node_report)
+graph.set_entry_point(<span class="str">"mine"</span>)
+graph.add_edge(<span class="str">"mine"</span>, <span class="str">"score"</span>)
+graph.add_edge(<span class="str">"score"</span>, <span class="str">"predict"</span>)
+graph.add_edge(<span class="str">"predict"</span>, <span class="str">"report"</span>)
+graph.add_edge(<span class="str">"report"</span>, END)
+pipeline = graph.compile()
+
+<span class="kw">def</span> run_pipeline(run_id: str, repo_id: str):
+    <span class="kw">with</span> Session() <span class="kw">as</span> db:
+        run = db.get(AnalysisRun, run_id)
+        run.status = <span class="str">"running"</span>; db.commit()
+    <span class="kw">try</span>:
+        result = pipeline.invoke({<span class="str">"run_id"</span>: run_id, <span class="str">"repo_id"</span>: repo_id})
+        pdf_path = render_pdf(result[<span class="str">"report_md"</span>],
+                              <span class="str">f"./reports/{run_id}.pdf"</span>)
+        <span class="kw">with</span> Session() <span class="kw">as</span> db:
+            run = db.get(AnalysisRun, run_id)
+            run.raw_metrics = result[<span class="str">"raw_metrics"</span>]
+            run.health_scores = result[<span class="str">"health_scores"</span>]
+            run.predictions = result[<span class="str">"predictions"</span>]
+            run.report_md   = result[<span class="str">"report_md"</span>]
+            run.report_path = pdf_path
+            run.status = <span class="str">"done"</span>; run.finished = datetime.utcnow()
+            db.commit()
+    <span class="kw">except</span> Exception <span class="kw">as</span> e:
+        <span class="kw">with</span> Session() <span class="kw">as</span> db:
+            run = db.get(AnalysisRun, run_id)
+            run.status = <span class="str">"error"</span>; db.commit()
+        raise</pre>
+</div>
+
+<div id="frontend" class="sec">
+  <div class="sec-title">Key React components</div>
+  <div class="file-label">frontend/src/api.js</div>
+<pre><span class="kw">import</span> axios <span class="kw">from</span> <span class="str">'axios'</span>
+<span class="kw">const</span> BASE = <span class="str">'http://localhost:8000'</span>
+<span class="kw">export const</span> addRepo    = (url, token) => axios.post(<span class="str">`${BASE}/repos`</span>, {url, token})
+<span class="kw">export const</span> startRun   = (repo_id)   => axios.post(<span class="str">`${BASE}/analyze`</span>, {repo_id})
+<span class="kw">export const</span> getResults = (run_id)    => axios.get(<span class="str">`${BASE}/results/${run_id}`</span>)
+<span class="kw">export const</span> reportUrl  = (run_id)    => <span class="str">`${BASE}/report/${run_id}/pdf`</span></pre>
+
+  <div class="file-label" style="margin-top:10px">frontend/src/pages/Dashboard.jsx (core logic)</div>
+<pre><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>
+<span class="kw">import</span> { Treemap, ResponsiveContainer, Tooltip } <span class="kw">from</span> <span class="str">'recharts'</span>
+<span class="kw">import</span> { getResults, reportUrl } <span class="kw">from</span> <span class="str">'../api'</span>
+
+<span class="kw">const</span> TIER_COLOR = { green: <span class="str">'#639922'</span>, yellow: <span class="str">'#BA7517'</span>, red: <span class="str">'#E24B4A'</span> }
+
+<span class="kw">export default function</span> Dashboard({ runId }) {
+  <span class="kw">const</span> [data, setData] = useState(<span class="kw">null</span>)
+  <span class="kw">const</span> [status, setStatus] = useState(<span class="str">'loading'</span>)
+
+  useEffect(() => {
+    <span class="kw">const</span> poll = setInterval(<span class="kw">async</span> () => {
+      <span class="kw">const</span> res = <span class="kw">await</span> getResults(runId)
+      setStatus(res.data.status)
+      <span class="kw">if</span> (res.data.status === <span class="str">'done'</span>) {
+        setData(res.data); clearInterval(poll)
+      }
+    }, 3000)
+    <span class="kw">return</span> () => clearInterval(poll)
+  }, [runId])
+
+  <span class="kw">if</span> (status !== <span class="str">'done'</span>) <span class="kw">return</span> &lt;div&gt;Analyzing... ({status})&lt;/div&gt;
+
+  <span class="kw">const</span> treemapData = data.health_scores.map(m => ({
+    name: m.module.split(<span class="str">'/'</span>).pop(),
+    size: m.churn + 1,
+    fill: TIER_COLOR[m.tier]
+  }))
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;ResponsiveContainer width=<span class="str">"100%"</span> height={400}&gt;
+        &lt;Treemap data={treemapData} dataKey=<span class="str">"size"</span>
+          content={({ x,y,w,h,name,fill }) =&gt;
+            &lt;rect x={x} y={y} width={w} height={h} fill={fill} stroke=<span class="str">"#fff"</span>/&gt;
+          }
+        /&gt;
+      &lt;/ResponsiveContainer&gt;
+      &lt;a href={reportUrl(runId)} target=<span class="str">"_blank"</span>&gt;
+        &lt;button&gt;Download CEO Report (PDF)&lt;/button&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  )
+}</pre>
+</div>
+
+<div id="env" class="sec">
+  <div class="sec-title">Environment variables + deployment</div>
+  <div style="margin-bottom:12px">
+    <div class="card-title" style="margin-bottom:8px">Required keys</div>
+    <div class="env-row"><span class="env-key">OPENAI_API_KEY</span><span class="env-req">required</span></div>
+    <div class="env-row"><span class="env-key">GITHUB_TOKEN</span><span class="env-req">required</span></div>
+    <div class="env-row"><span class="env-key">DATABASE_URL</span><span class="env-opt">optional — default sqlite</span></div>
+    <div class="env-row"><span class="env-key">CLONE_DIR</span><span class="env-opt">optional — default /tmp</span></div>
+    <div class="env-row"><span class="env-key">REPORT_OUTPUT_DIR</span><span class="env-opt">optional — default ./reports</span></div>
+  </div>
+
+  <div class="sec-title" style="font-size:13px">Run locally (2 terminals)</div>
+<pre><span class="cm"># Terminal 1 — backend</span>
+cd backend
+python -m uvicorn main:app --reload --port 8000
+
+<span class="cm"># Terminal 2 — frontend</span>
+cd frontend
+npm run dev   <span class="cm"># runs on localhost:5173</span></pre>
+
+  <div class="sec-title" style="font-size:13px;margin-top:12px">Quick deploy options for hackathon</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Railway (recommended)</div>
+      <div class="card-body">Push to GitHub. Connect Railway. Set env vars. Auto-deploys FastAPI on port 8000. Free tier works for demo.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Ngrok (fastest)</div>
+      <div class="card-body">Run locally, then <code style="font-size:11px">ngrok http 8000</code> for a public backend URL. No deploy needed. Perfect for hackathon demo.</div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:13px;margin-top:12px">Start command to verify everything works</div>
+<pre>cd backend && python -c "
+from agents.miner import mine_repo
+from agents.scorer import compute_health_scores
+print(mine_repo('.'))      <span class="cm"># test on backend folder itself</span>
+"</pre>
+</div>
+
+</div>
+<script>
+function sw(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'))
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
+  event.target.classList.add('active')
+}
+</script>

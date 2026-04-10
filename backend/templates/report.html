@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <style>
+      body {
+        font-family: "Helvetica", "Arial", sans-serif;
+        margin: 36px;
+        color: #13222f;
+        line-height: 1.45;
+      }
+      .meta {
+        margin-bottom: 18px;
+        font-size: 12px;
+        color: #48616f;
+      }
+      h1 {
+        font-size: 26px;
+        margin-bottom: 12px;
+        border-bottom: 2px solid #2f847c;
+        padding-bottom: 8px;
+      }
+      h2 {
+        color: #144f76;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 12px;
+      }
+      th,
+      td {
+        border: 1px solid #c9d6dd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background: #0f4e67;
+        color: white;
+      }
+      code {
+        background: #edf4f7;
+        padding: 1px 4px;
+      }
+      ul,
+      ol {
+        padding-left: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <div class="meta">Generated at: {{ generated_at }}</div>
+    <div>{{ body | safe }}</div>
+  </body>
+</html>

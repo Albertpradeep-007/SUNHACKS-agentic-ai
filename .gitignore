@@ -1,46 +1,40 @@
-# Python
+﻿# Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.class
 *.so
-*.egg-info/
-dist/
+.Python
 build/
-.eggs/
-*.egg
+dist/
+*.egg-info/
 .venv/
 venv/
 env/
 
-# Node.js
+# Node
 node_modules/
+dist/
 .next/
-out/
-.cache/
+*.local
+
+# Environment files - NEVER commit these
+.env
+.env.local
+.env.*.local
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
 
 # IDE
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Environment
-.env
-.env.local
-.env.*.local
 
 # Logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Misc
-*.tmp
-*.bak
+# Docker
+.dockerignore
