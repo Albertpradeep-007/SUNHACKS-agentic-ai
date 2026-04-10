@@ -3,8 +3,8 @@ services:
     name: peip-backend
     runtime: docker
     plan: free
-    rootDir: .
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
     autoDeploy: true
     envVars:
       - key: LLM_PROVIDER
@@ -21,10 +21,11 @@ services:
         value: ./data/reports
       - key: CORS_ORIGINS
         value: https://peip-frontend.onrender.com
+      - key: GROQ_API_KEY
+        sync: false
 
   - type: static
     name: peip-frontend
-    rootDir: .
     buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
     pullRequestPreviewsEnabled: false
